@@ -3,7 +3,8 @@
 
 # Team
 S2010629010 Egle Sabaliauskaite. \
-S1910629001 Sahabaj Barbhuiya. 
+S1910629001 Sahabaj Barbhuiya. \
+Kaan Kotan
 
 # UI
 ![4  User Access – 3](https://user-images.githubusercontent.com/56506266/115992175-949a8c80-a5cc-11eb-9bfa-8a6e8a143be7.jpg)
