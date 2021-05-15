@@ -1,0 +1,19 @@
+<h2>HEY! IT'S TIME TO DRAW! </h2><br>
+  <div class="container" >
+  <div class="colors">
+    <div [ngClass]="'small'"
+    *ngFor="let item of colors; let i = index"
+    [ngStyle]="{backgroundColor: item}"
+    (click)="onClick(item)"
+    ></div>
+  </div>
+    <canvas id="canvas" #drawingCanvas width="950px" height="600px"></canvas>
+</div>
+<br>
+<div>
+  <button (click)="clear()" class="clear"> <img src="../assets/clear.png" alt="clear" class="clearImg"> Clear Canvas </button>
+  <button  class="done clear"> <img src="../assets/play.png" alt="done" class="clearImg"> Done</button>
+</div>
+
+
+
