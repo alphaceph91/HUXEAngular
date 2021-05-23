@@ -1,0 +1,228 @@
+@import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
+$clearImgSize: 30px;
+
+.done {
+  margin-top: 30px;
+  margin-left: 210px;
+  width: 272px;
+  height: 92px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 1px #707070;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  opacity: 1;
+  text-align: left;
+  font: normal normal normal 22px/37px Permanent Marker;
+  letter-spacing: 2.27px;
+  color: #000000;
+  opacity: 1;
+  text-align: center;
+}
+
+#link {
+  margin-right: 60px;
+  margin-left: 180px;
+}
+
+#clearImg {
+  width: $clearImgSize;
+  height: $clearImgSize;
+  float: left;
+  margin-left: 15px;
+}
+
+#linkImg {
+  width: $clearImgSize + 20;
+  height: $clearImgSize + 10;
+  float: left;
+  margin-left: 15px;
+}
+
+h2 {
+  top: 187px;
+  padding-top: 40px;
+  text-align: center;
+  font: normal normal bold 40px/46px Ubuntu;
+  letter-spacing: 2.8px;
+  color: #00e6d4;
+  text-shadow: 0px 3px 6px #000000;
+  opacity: 1;
+}
+
+.card-title {
+  padding-top: 0px;
+}
+
+.done:hover {
+  color: white;
+  background-color: #707070;
+}
+
+.players {
+  margin-top: 50px;
+  margin-left: 250px;
+  width: 539px;
+  height: 800px;
+  background: transparent linear-gradient(150deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  box-shadow: 15px 15px 15px #00000029;
+  border: 2px solid #503d3d33;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  float: left;
+}
+
+.settings {
+  margin-top: 170px;
+  margin-right: 140px;
+  width: 813px;
+  height: 536px;
+  background: transparent linear-gradient(129deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  box-shadow: 15px 15px 15px #00000029;
+  border: 2px solid #503d3d33;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  float: right;
+}
+
+.playerdiv {
+  margin-top: 22px;
+  margin-left: 50px;
+  width: 441px;
+  height: 76px;
+  background: #70707066 0% 0% no-repeat padding-box;
+  border: 1px solid #ffffff;
+  border-radius: 35px 10px 10px 35px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+
+select {
+  margin-top: 10px;
+  margin-left: 50px;
+  width: 441px;
+  height: 76px;
+  background: transparent linear-gradient(129deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  text-align: left;
+  font: normal normal 600 22px/27px Montserrat;
+  letter-spacing: 1.56px;
+  color: #fffefe;
+}
+
+option {
+  width: 145px;
+  height: 27px;
+  padding: 16px 20px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #000000;
+  opacity: 1;
+  text-align: left;
+  font: normal normal 600 22px/27px Montserrat;
+  letter-spacing: 1.56px;
+  color: #000000;
+  opacity: 0.75;
+  top: 100%;
+  left: 0;
+  right: 0;
+}
+
+.playerslist {
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 539px;
+  height: 600px;
+}
+
+.card {
+  margin-top: 55px;
+  margin-left: 36px;
+  width: 306px;
+  height: 200px;
+  background: #ffffffe6 0% 0% no-repeat padding-box;
+  border: 5px solid #4bcf89;
+  border-radius: 20px;
+  opacity: 1;
+  margin: auto;
+}
+
+.pokemons {
+  width: 105px;
+  height: 102px;
+}
+
+.settings {
+  display: flex;
+}
+
+.card {
+  display: grid;
+  grid-template: 1fr / 1fr;
+  grid-template-areas: "frontAndBack";
+  transform-style: preserve-3d;
+  transition: all 0.7s ease;
+}
+
+.card div {
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+}
+
+.card-front {
+  grid-area: frontAndBack;
+}
+
+.card-back {
+  grid-area: frontAndBack;
+  transform: rotateY(-180deg);
+}
+
+.card:hover {
+  transform: rotateY(180deg);
+}
+
+.desc {
+  text-align: center;
+  font: normal normal medium 24px/29px Montserrat;
+  letter-spacing: 1.68px;
+  color: #000000;
+  opacity: 1;
+}
+
+.card.flipped {
+  -webkit-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+.noPlayer {
+  width: 61px;
+  height: 61px;
+  opacity: 0.75;
+  margin-left: 7px;
+  margin-top: 3px;
+}
+
+.empty {
+  text-align: left;
+  font: normal normal 600 22px/27px Montserrat;
+  letter-spacing: 1.56px;
+  color: #fffefe;
+  opacity: 0.75;
+  margin-top: 5px;
+}

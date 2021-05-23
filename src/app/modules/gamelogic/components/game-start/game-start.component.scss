@@ -3,19 +3,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 $clearImgSize: 30px;
 
-#result {
-  background-color: white;
-  align-self: center;
-  width: 960px;
-  height: 600px;
-  margin: 0 auto;
-  border: 1px solid black;
-  border-radius: 10px;
+.bottom {
+  position: absolute;
+  margin-bottom: 80px;
+  bottom: 0px;
 }
 
 .done {
   float: right;
   margin-right: 55px;
+  margin-left: 25px;
   margin-top: 15px;
   width: 242px;
   height: 72px;
@@ -65,7 +62,7 @@ h2 {
   -webkit-backdrop-filter: blur(50px);
   font: normal normal 600 32px/39px Montserrat;
   letter-spacing: 2.27px;
-  color: #fff;
+  color: #ffffff;
   text-align: left;
 }
 
