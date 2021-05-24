@@ -3,11 +3,29 @@
 
 $clearImgSize: 30px;
 
+.container {
+  margin-top: 50px;
+  margin-left: 300px;
+  padding: 10px;
+  width: 1647px;
+  height: 800px;
+  background: transparent linear-gradient(130deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  box-shadow: 15px 15px 15px #00000029;
+  border: 2px solid #503d3d33;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+
 #canvas {
   border: 1px solid black;
   background-color: white;
-  float: right;
   border-radius: 10px;
+  float: right;
+  margin-right: 25px;
+  margin-bottom: 35px;
 }
 
 h2 {
@@ -26,6 +44,7 @@ h2 {
   border-radius: 50%;
   margin-right: 15px;
   margin-bottom: 10px;
+  float: left;
 }
 
 .small:hover {
@@ -33,16 +52,14 @@ h2 {
 }
 
 .colors {
+  height: 40px;
   width: 80px;
-  display: flex;
-  flex-wrap: wrap-reverse;
-  justify-content: center;
-  align-items: center;
+  padding-top: 80px;
+  padding-left: 45px;
 }
 
 .clear {
-  margin-top: 15px;
-  margin-left: 95px;
+  margin-left: 15px;
   width: 242px;
   height: 72px;
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -59,7 +76,7 @@ h2 {
 }
 .done {
   float: right;
-  margin-right: 55px;
+  margin-right: 25px;
 }
 
 .clear:hover {
@@ -70,10 +87,6 @@ h2 {
 .done:hover {
   color: white;
   background-color: #707070;
-}
-
-.container {
-  display: inline-flex;
 }
 
 .clearImg {

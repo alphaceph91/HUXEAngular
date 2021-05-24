@@ -1,0 +1,70 @@
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<div class="container">
+<div>
+  <div class="avatar">
+    <div class=avatars>
+      <div class= colors [ngStyle]="{'background-color': click1 ? colors[1] : (hover1 ? colorshalf[1] : null) }" (click)="click1 = !click1" (mouseover)="hover1=!hover1" ng-init="click=false; hover=false">
+        <img class="profile" src="assets/Profiles/Animal_Faces/1.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click2 ? colors[2] : (hover2 ? colorshalf[2] : null) }" (click)="click2 = !click2" (mouseover)="hover2=!hover2">
+        <img class="profile" src="assets/Profiles/Animal_Faces/2.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click3 ? colors[3] : (hover3 ? colorshalf[3] : null) }" (click)="click3 = !click3" (mouseover)="hover3=!hover3">
+        <img class="profile" src="assets/Profiles/Animal_Faces/3.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click4 ? colors[4] : (hover4 ? colorshalf[4] : null) }" (click)="click4 = !click4" (mouseover)="hover4=!hover4">
+        <img class="profile" src="assets/Profiles/Animal_Faces/4.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click5 ? colors[5] : (hover5 ? colorshalf[5] : null) }" (click)="click5 = !click5" (mouseover)="hover5=!hover5">
+      <img class="profile" src="assets/Profiles/Animal_Faces/5.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click6 ? colors[6] : (hover6 ? colorshalf[6] : null) }" (click)="click6 = !click6" (mouseover)="hover6=!hover6">
+        <img class="profile" src="assets/Profiles/Animal_Faces/6.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click7 ? colors[7] : (hover7 ? colorshalf[7] : null) }" (click)="click7 = !click7" (mouseover)="hover7=!hover7">
+        <img class="profile" src="assets/Profiles/Animal_Faces/7.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click8 ? colors[8] : (hover8 ? colorshalf[8] : null) }" (click)="click8 = !click8" (mouseover)="hover8=!hover8">
+        <img class="profile" src="assets/Profiles/Animal_Faces/8.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click9 ? colors[9] : (hover9 ? colorshalf[9] : null) }" (click)="click9 = !click9" (mouseover)="hover9=!hover9">
+        <img class="profile" src="assets/Profiles/Animal_Faces/9.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click10 ? colors[10] : (hover10 ? colorshalf[10] : null) }" (click)="click10 = !click10" (mouseover)="hover10=!hover10">
+        <img class="profile" src="assets/Profiles/Animal_Faces/10.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click11 ? colors[11] : (hover11 ? colorshalf[11] : null) }" (click)="click11 = !click11" (mouseover)="hover11=!hover11">
+        <img class="profile" src="assets/Profiles/Animal_Faces/11.svg" alt="Profile picture"></div>
+      <div class= colors [ngStyle]="{'background-color': click12 ? colors[4] : (hover12 ? colorshalf[4] : null) }" (click)="click12 = !click12" (mouseover)="hover12=!hover12">
+        <img class="profile" src="assets/Profiles/Animal_Faces/12.svg" alt="Profile picture"></div>
+    </div>
+    <form action="">
+      <label for="description" id='choose'> Choose your avatar</label>
+      <input type="text" id="description" name="description" placeholder="Enter a cool name">
+      <button  class="done" (click)='next()'> <img src="../assets/play.png" alt="done" class="clearImg"> Start </button>
+    </form>
+  </div>
+</div>
+  <div id="carouselExampleIndicators" class="carousel slide carrousel" data-bs-ride="carousel">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <h2>HOW TO PLAY</h2>
+        <h4>1. TIME TO WRITE</h4>
+        <p class="howto">Each player must write a funny sentence</p>
+      </div>
+      <div class="carousel-item">
+        <h2>HOW TO PLAY</h2>
+        <h4>2. TIME TO DRAW</h4>
+        <p class="howto">You will receive a bizarre sentence to draw</p>
+      </div>
+      <div class="carousel-item">
+        <h2>HOW TO PLAY</h2>
+        <h4>3. GUESS IT RIGHT</h4>
+        <p class="howto">Try to describe one the bizarre drawings</p>
+      </div>
+      <div class="carousel-item">
+        <h2>HOW TO PLAY</h2>
+        <h4>4. HAVE A LAUGH</h4>
+        <p class="howto">Check the hilarious results made by you</p>
+      </div>
+    </div>
+  </div>
+</div>

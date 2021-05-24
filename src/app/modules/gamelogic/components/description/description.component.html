@@ -1,3 +1,5 @@
+<div class="container">
+
 <h2> NOW IT'S YOUR TURN TO DESCRIBE THE SCENE </h2>
 <div *ngIf="src" id='result'>
   <img [src]=src alt="result"  />
@@ -6,6 +8,7 @@
   <form action="">
     <label for="description"></label>
     <input type="text" id="description" name="description" placeholder="Use commas, They save lives">
-    <button  class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
+    <button  class="done" (click)="next()"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
   </form>
+</div>
 </div>

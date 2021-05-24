@@ -1,18 +1,1 @@
-$mediaMaxWidth: 1260px;
-$mediaBp1Width: 960px;
-$mediaMinWidth: 480px;
-$width: 1920px;
-$heigth: 1080px;
 
-.container {
-  margin-top: 50px;
-  background: transparent linear-gradient(130deg, #70707066 0%, #3838382e 100%)
-    0% 0% no-repeat padding-box;
-  box-shadow: 15px 15px 15px #00000029;
-  border: 2px solid #503d3d33;
-  border-radius: 10px;
-  opacity: 1;
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
-  height: $mediaBp1Width - 115px;
-}

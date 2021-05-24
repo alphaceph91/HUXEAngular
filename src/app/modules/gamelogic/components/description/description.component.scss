@@ -3,6 +3,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 $clearImgSize: 30px;
 
+.container {
+  margin-top: 50px;
+  margin-left: 300px;
+  padding: 10px;
+  width: 1647px;
+  height: 800px;
+  background: transparent linear-gradient(130deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  box-shadow: 15px 15px 15px #00000029;
+  border: 2px solid #503d3d33;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+
 #result {
   background-color: white;
   align-self: center;
@@ -44,6 +60,8 @@ $clearImgSize: 30px;
 }
 
 h2 {
+  margin-top: 15px;
+  margin-left: 45px;
   font: normal normal bold 40px/46px Ubuntu;
   letter-spacing: 2.8px;
   color: #00e6d4;
@@ -52,9 +70,15 @@ h2 {
   text-align: center;
 }
 
+.descInput {
+  position: absolute;
+  top: 658px;
+}
+
 #description {
   margin-left: 45px;
   margin-top: 15px;
+  margin-right: 15px;
   width: 750px;
   height: 72px;
   background: #707070 0% 0% no-repeat padding-box;

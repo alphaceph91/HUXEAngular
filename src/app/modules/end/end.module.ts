@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ResultsComponent } from './components/results/results.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [ResultsComponent],
   imports: [CommonModule],
-  exports: [],
+  exports: [ResultsComponent],
 })
 export class EndModule {}

@@ -1,11 +1,16 @@
 @import url("https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+
 $clearImgSize: 30px;
+$background: rgba(
+  $color: #707070,
+  $alpha: 0.4,
+);
 
 .container {
   margin-top: 50px;
-  margin-left: 390px;
+  margin-left: 300px;
   padding: 10px;
   width: 1647px;
   height: 800px;
@@ -19,17 +24,28 @@ $clearImgSize: 30px;
   -webkit-backdrop-filter: blur(50px);
 }
 
-.bottom {
+.carrousel {
+  float: right;
   position: absolute;
-  margin-bottom: 80px;
-  bottom: 0px;
+  top: 72px;
+  right: 72px;
+  width: 466px;
+  height: 466px;
+  background: $background 0% 0% no-repeat padding-box;
+  box-shadow: 0px 3px 6px #00000029;
+  border: 1px solid #ffffff;
+  border-radius: 35px;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+form {
+  width: 300px;
 }
 
 .done {
-  float: right;
-  margin-right: 55px;
-  margin-left: 25px;
-  margin-top: 15px;
+  margin-top: 30px;
+  margin-left: 200px;
   width: 242px;
   height: 72px;
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -45,8 +61,48 @@ $clearImgSize: 30px;
   text-align: center;
 }
 
+#choose {
+  width: 700px;
+  height: 63px;
+  text-align: center;
+  font: normal normal normal 44px/64px Permanent Marker;
+  letter-spacing: 3.08px;
+  color: #ffffff;
+  opacity: 1;
+}
+
 .container {
   display: inline-flex;
+}
+
+.avatar {
+  float: left;
+  width: 240px;
+  margin-left: 35px;
+}
+
+.avatars {
+  margin-top: 55px;
+  width: 700px;
+  display: flex;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile {
+  width: 70px;
+  height: 70px;
+  margin-left: 15px;
+  margin-top: 15px;
+}
+
+.colors {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin-right: 65px;
+  margin-bottom: 55px;
 }
 
 .clearImg {
@@ -57,18 +113,35 @@ $clearImgSize: 30px;
 }
 
 h2 {
+  top: 187px;
+  padding-top: 40px;
+  text-align: center;
   font: normal normal bold 40px/46px Ubuntu;
   letter-spacing: 2.8px;
   color: #00e6d4;
   text-shadow: 0px 3px 6px #000000;
   opacity: 1;
+}
+
+h4 {
+  text-align: left;
+  font: normal normal bold 40px Ubuntu;
+  letter-spacing: 2.8px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.howto {
   text-align: center;
+  font: normal normal normal 36px Ubuntu;
+  letter-spacing: 2.52px;
+  color: #ffffff;
+  opacity: 1;
 }
 
 #description {
-  margin-left: 45px;
   margin-top: 15px;
-  width: 750px;
+  width: 650px;
   height: 72px;
   background: #707070 0% 0% no-repeat padding-box;
   border: 1px solid #ffffff;
@@ -78,7 +151,7 @@ h2 {
   -webkit-backdrop-filter: blur(50px);
   font: normal normal 600 32px/39px Montserrat;
   letter-spacing: 2.27px;
-  color: #ffffff;
+  color: #fff;
   text-align: left;
 }
 

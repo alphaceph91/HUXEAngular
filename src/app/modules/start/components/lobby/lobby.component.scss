@@ -24,7 +24,7 @@ $clearImgSize: 30px;
 
 #link {
   margin-right: 60px;
-  margin-left: 180px;
+  margin-left: 100px;
 }
 
 #clearImg {
@@ -63,7 +63,7 @@ h2 {
 
 .players {
   margin-top: 50px;
-  margin-left: 250px;
+  margin-left: 150px;
   width: 539px;
   height: 800px;
   background: transparent linear-gradient(150deg, #70707066 0%, #3838382e 100%)
@@ -225,4 +225,63 @@ option {
   color: #fffefe;
   opacity: 0.75;
   margin-top: 5px;
+}
+
+.back {
+  margin-top: 50px;
+  margin-left: 40px;
+  width: 137px;
+  height: 56px;
+  background: transparent linear-gradient(150deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  box-shadow: 15px 15px 15px #00000029;
+  border: 2px solid #fff;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  text-align: center;
+  font: normal normal 600 19px/23px Montserrat;
+  letter-spacing: 1.35px;
+  color: #fffefe;
+  opacity: 1;
+}
+
+.backbutton {
+  float: left;
+  margin-left: 40px;
+  width: 137px;
+  height: 56px;
+}
+
+.playerlistitem {
+  margin-top: 22px;
+  margin-left: 50px;
+  padding-top: 3px;
+  width: 441px;
+  height: 76px;
+  background: #ffffff99 0% 0% no-repeat padding-box;
+  border: 1px solid #ffffff;
+  border-radius: 35px 10px 10px 35px;
+  text-align: left;
+  font: bold 22px/27px Montserrat;
+  letter-spacing: 1.54px;
+  color: #000000;
+  opacity: 1;
+}
+
+.playerimg {
+  padding: 10px;
+  width: 55px;
+  height: 55px;
+  opacity: 0.75;
+  margin-left: 10px;
+  margin-top: 7px;
+  border: 3px solid #000000;
+  opacity: 1;
+  border-radius: 50%;
+}
+
+#carouselExampleIndicators {
+  margin: 2px;
 }

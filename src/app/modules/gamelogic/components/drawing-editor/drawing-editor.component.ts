@@ -8,6 +8,7 @@ import {
   HostListener,
   OnDestroy,
 } from '@angular/core';
+import { Router } from '@angular/router';
 import { fromEvent } from 'rxjs';
 import { delay } from 'rxjs/operators';
 declare interface Position {
@@ -46,6 +47,12 @@ export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
   currentyDrawing = false;
   refreshImg: any;
   mouseUpSubscription: any;
+
+  constructor(private router: Router) {}
+
+  next() {
+    this.router.navigate(['/describe']);
+  }
 
   ngAfterViewInit(): void {
     this.ctx = this.canvas.nativeElement.getContext('2d');

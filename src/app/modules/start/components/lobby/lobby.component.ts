@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -39,8 +38,15 @@ export class LobbyComponent implements OnInit {
     this.flipval2 = false;
     this.flipval = false;
   }
+  constructor(private router: Router) {}
 
-  constructor() {}
+  next() {
+    this.router.navigate(['/first']);
+  }
+
+  back() {
+    this.router.navigate(['/']);
+  }
 
   ngOnInit(): void {}
 }

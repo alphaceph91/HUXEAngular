@@ -1,0 +1,25 @@
+<head>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<div class="backbutton">
+<button  class="back" (click)="back()"> BACK</button>
+</div>
+  <div class="players">
+    <h2>PLAYERS </h2>
+      <div>
+          <div class='playerslist'>
+            <div class="playerdiv" *ngFor="let i of [].constructor(num)">
+              <p class="empty"><img src="./assets/noimg.png" alt="no player" class="noPlayer">
+              EMPTY</p>
+            </div>
+          </div>
+      </div>
+  </div>
+
+
+<div class="settings">
+  <h2>ALBUMS </h2>
+</div>
+
+
+
