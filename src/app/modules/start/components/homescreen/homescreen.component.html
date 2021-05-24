@@ -5,7 +5,7 @@
 <div>
   <div class="avatar">
     <div class=avatars>
-      <div class= colors [ngStyle]="{'background-color': click1 ? colors[1] : (hover1 ? colorshalf[1] : null) }" (click)="click1 = !click1" (mouseover)="hover1=!hover1" ng-init="click=false; hover=false">
+      <div class= colors [ngStyle]="{'background-color': click1 ? colors[1] : (hover1 ? colorshalf[1] : null) }" (click)="click1 = !click1" (mouseover)="hover1=!hover1">
         <img class="profile" src="assets/Profiles/Animal_Faces/1.svg" alt="Profile picture"></div>
       <div class= colors [ngStyle]="{'background-color': click2 ? colors[2] : (hover2 ? colorshalf[2] : null) }" (click)="click2 = !click2" (mouseover)="hover2=!hover2">
         <img class="profile" src="assets/Profiles/Animal_Faces/2.svg" alt="Profile picture"></div>
@@ -31,10 +31,21 @@
         <img class="profile" src="assets/Profiles/Animal_Faces/12.svg" alt="Profile picture"></div>
     </div>
     <form action="">
-      <label for="description" id='choose'> Choose your avatar</label>
-      <input type="text" id="description" name="description" placeholder="Enter a cool name">
-      <button  class="done" (click)='next()'> <img src="../assets/play.png" alt="done" class="clearImg"> Start </button>
+
+
     </form>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <div class="form-group">
+            <label for="description" id='choose'> Choose your avatar</label>
+            <input formControlName="name" type="text" id="description" name="description" placeholder="Enter a cool name">
+          <div *ngIf="f.name.touched && f.name.invalid" [ngStyle]="{'color': 'red'}">
+              <div *ngIf="f.name.errors.required">Name is required.</div>
+              <div *ngIf="f.name.errors.minlength">Name should be 3 character.</div>
+          </div>
+          <button  class="done" type="submit" (click)='next()'> <img src="../assets/play.png" alt="done" class="clearImg"> Start </button>
+      </div>
+  </form>
   </div>
 </div>
   <div id="carouselExampleIndicators" class="carousel slide carrousel" data-bs-ride="carousel">
@@ -48,21 +59,25 @@
       <div class="carousel-item active">
         <h2>HOW TO PLAY</h2>
         <h4>1. TIME TO WRITE</h4>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="write" (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">Each player must write a funny sentence</p>
       </div>
       <div class="carousel-item">
         <h2>HOW TO PLAY</h2>
         <h4>2. TIME TO DRAW</h4>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="draw" (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">You will receive a bizarre sentence to draw</p>
       </div>
       <div class="carousel-item">
         <h2>HOW TO PLAY</h2>
         <h4>3. GUESS IT RIGHT</h4>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="guess" (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">Try to describe one the bizarre drawings</p>
       </div>
       <div class="carousel-item">
         <h2>HOW TO PLAY</h2>
         <h4>4. HAVE A LAUGH</h4>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="laughs" (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">Check the hilarious results made by you</p>
       </div>
     </div>

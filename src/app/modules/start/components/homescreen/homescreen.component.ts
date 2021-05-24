@@ -1,5 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+
+import { AnimationItem } from 'lottie-web';
+import { AnimationOptions } from 'ngx-lottie';
 
 @Component({
   selector: 'app-homescreen',
@@ -7,41 +11,63 @@ import { Router } from '@angular/router';
   styleUrls: ['./homescreen.component.scss'],
 })
 export class HomescreenComponent implements OnInit {
-  click1: boolean = false;
-  hover1: boolean = false;
+  laughs: AnimationOptions = {
+    path: '/assets/Animations/Laughs/1443-laughs.json',
+  };
+  write: AnimationOptions = {
+    path: '/assets/Animations/writing/41460-writing.json',
+  };
+  draw: AnimationOptions = {
+    path: '/assets/Animations/Drawing/8704-drawing-with-a-graphic-tablet.json',
+  };
+  guess: AnimationOptions = {
+    path: '/assets/Animations/Thinking/43228-thinking-animation.json',
+  };
 
-  click2: boolean = false;
-  hover2: boolean = false;
+  styles: Partial<CSSStyleDeclaration> = {
+    maxWidth: '500px',
+    margin: '0 auto',
+  };
 
-  click3: boolean = false;
-  hover3: boolean = false;
+  form = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
+  });
 
-  click4: boolean = false;
-  hover4: boolean = false;
+  click1 = false;
+  hover1 = false;
 
-  click5: boolean = false;
-  hover5: boolean = false;
+  click2 = false;
+  hover2 = false;
 
-  click6: boolean = false;
-  hover6: boolean = false;
+  click3 = false;
+  hover3 = false;
 
-  click7: boolean = false;
-  hover7: boolean = false;
+  click4 = false;
+  hover4 = false;
 
-  click8: boolean = false;
-  hover8: boolean = false;
+  click5 = false;
+  hover5 = false;
 
-  click9: boolean = false;
-  hover9: boolean = false;
+  click6 = false;
+  hover6 = false;
 
-  click10: boolean = false;
-  hover10: boolean = false;
+  click7 = false;
+  hover7 = false;
 
-  click11: boolean = false;
-  hover11: boolean = false;
+  click8 = false;
+  hover8 = false;
 
-  click12: boolean = false;
-  hover12: boolean = false;
+  click9 = false;
+  hover9 = false;
+
+  click10 = false;
+  hover10 = false;
+
+  click11 = false;
+  hover11 = false;
+
+  click12 = false;
+  hover12 = false;
 
   images: Array<string> = [
     '1',
@@ -91,17 +117,21 @@ export class HomescreenComponent implements OnInit {
   @Input() src: string;
   constructor(private router: Router) {}
 
-  onClick(color: string): void {
-    this.avatars.nativeElement.style.backgroundColor = color;
-    console.log(color);
-  }
-  onHover(color: string): void {
-    this.avatars.nativeElement.style.backgroundColor = color;
-    console.log(color);
+  animationCreated(animationItem: AnimationItem): void {
+    console.log(animationItem);
   }
 
-  next() {
+  next(): void {
     this.router.navigate(['/lobby']);
   }
+
+  get f(): FormGroup['controls'] {
+    return this.form.controls;
+  }
+
+  submit(): void {
+    console.log(this.form.value);
+  }
+
   ngOnInit(): void {}
 }

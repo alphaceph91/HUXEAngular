@@ -7,6 +7,13 @@ import { GamelogicModule } from './modules/gamelogic/gamelogic.module';
 import { StartModule } from './modules/start/start.module';
 import { EndModule } from './modules/end/end.module';
 
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web';
+
+export function playerFactory() {
+  return player;
+}
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -15,6 +22,7 @@ import { EndModule } from './modules/end/end.module';
     GamelogicModule,
     StartModule,
     EndModule,
+    LottieModule.forRoot({ player: playerFactory }),
   ],
   providers: [],
   bootstrap: [AppComponent],
