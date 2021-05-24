@@ -47,19 +47,6 @@ h2 {
   float: right;
 }
 
-.playerdiv {
-  margin-top: 22px;
-  margin-left: 50px;
-  width: 441px;
-  height: 76px;
-  background: #70707066 0% 0% no-repeat padding-box;
-  border: 1px solid #ffffff;
-  border-radius: 35px 10px 10px 35px;
-  opacity: 1;
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
-}
-
 .playerslist {
   overflow-y: auto;
   overflow-x: hidden;
@@ -121,4 +108,116 @@ h2 {
   margin-left: 40px;
   width: 137px;
   height: 56px;
+}
+
+.playerlistitem {
+  margin-top: 22px;
+  margin-left: 50px;
+  padding-top: 3px;
+  width: 441px;
+  height: 76px;
+  background: #ffffff99 0% 0% no-repeat padding-box;
+  border: 1px solid #ffffff;
+  border-radius: 35px 10px 10px 35px;
+  text-align: left;
+  font: bold 22px/27px Montserrat;
+  letter-spacing: 1.54px;
+  color: #000000;
+  opacity: 1;
+}
+
+.playerimg {
+  padding: 10px;
+  width: 55px;
+  height: 55px;
+  opacity: 0.75;
+  margin-left: 10px;
+  margin-top: 7px;
+  border: 3px solid #000000;
+  opacity: 1;
+  border-radius: 50%;
+}
+
+.hostlistitem {
+  background: #4bcf89 0% 0% no-repeat padding-box;
+  border: 1px solid #ffffff;
+  border-radius: 35px 10px 10px 35px;
+  opacity: 1;
+}
+
+.hostimg {
+  padding-top: 15px;
+  padding-right: 15px;
+  float: right;
+  width: 57px;
+  height: 57px;
+  opacity: 1;
+}
+
+.left {
+  margin-left: 20px;
+  float: left;
+  width: 180px;
+  height: 0px;
+  border: 2px solid #ffffff;
+  opacity: 1;
+  background-color: white;
+}
+
+.right {
+  margin-right: 30px;
+  float: right;
+  width: 180px;
+  height: 0px;
+  border: 2px solid #ffffff;
+  opacity: 1;
+  background-color: white;
+}
+
+.endtext {
+  margin-left: 20px;
+  text-align: center;
+  font: normal normal 600 18px/22px Montserrat;
+  letter-spacing: 1.28px;
+  color: #ffffff;
+  opacity: 1;
+}
+
+.descriptionoutput {
+  width: 660px;
+  height: 95px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  opacity: 1;
+  padding-top: 25px;
+  padding-left: 60px;
+  text-align: left;
+  font: normal normal 600 32px/39px Montserrat;
+  letter-spacing: 2.27px;
+  color: #000000;
+  opacity: 1;
+  margin-bottom: 20px;
+  margin-left: 60px;
+}
+
+.imgoutput {
+  width: 660px;
+  height: 420px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  border: 1px solid #000000;
+  border-radius: 10px;
+  opacity: 1;
+  margin-bottom: 20px;
+  margin-left: 60px;
+}
+
+.playerindialog {
+  margin-left: 10px;
+  margin-bottom: 2px;
+  text-align: left;
+  font: normal normal bold 22px/27px Montserrat;
+  letter-spacing: 1.54px;
+  color: #ffffff;
+  opacity: 1;
 }

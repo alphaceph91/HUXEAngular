@@ -30,16 +30,11 @@
       <div class= colors [ngStyle]="{'background-color': click12 ? colors[4] : (hover12 ? colorshalf[4] : null) }" (click)="click12 = !click12" (mouseover)="hover12=!hover12">
         <img class="profile" src="assets/Profiles/Animal_Faces/12.svg" alt="Profile picture"></div>
     </div>
-    <form action="">
-
-
-    </form>
-
-    <form [formGroup]="form" (ngSubmit)="submit()">
+    <form [formGroup]="form" (ngSubmit)="next()">
       <div class="form-group">
             <label for="description" id='choose'> Choose your avatar</label>
             <input formControlName="name" type="text" id="description" name="description" placeholder="Enter a cool name">
-          <div *ngIf="f.name.touched && f.name.invalid" [ngStyle]="{'color': 'red'}">
+          <div *ngIf="submitted  && f.name.invalid" class="error">
               <div *ngIf="f.name.errors.required">Name is required.</div>
               <div *ngIf="f.name.errors.minlength">Name should be 3 character.</div>
           </div>

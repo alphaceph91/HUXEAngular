@@ -8,12 +8,16 @@ $background: rgba(
   $alpha: 0.4,
 );
 
+.error {
+  color: red;
+  font: normal normal normal 26px Ubuntu;
+}
 .container {
   margin-top: 50px;
   margin-left: 300px;
   padding: 10px;
   width: 1647px;
-  height: 800px;
+  height: 850px;
   background: transparent linear-gradient(130deg, #70707066 0%, #3838382e 100%)
     0% 0% no-repeat padding-box;
   box-shadow: 15px 15px 15px #00000029;

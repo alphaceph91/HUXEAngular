@@ -1,5 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AnimationItem } from 'lottie-web';
@@ -29,9 +35,24 @@ export class HomescreenComponent implements OnInit {
     margin: '0 auto',
   };
 
-  form = new FormGroup({
-    name: new FormControl('', [Validators.required, Validators.minLength(3)]),
-  });
+  pictureid = 0;
+
+  click = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ];
+  form: FormGroup;
+  submitted = false;
 
   click1 = false;
   hover1 = false;
@@ -115,23 +136,29 @@ export class HomescreenComponent implements OnInit {
   @ViewChild('avatars')
   avatars: ElementRef<HTMLDivElement> | null = null;
   @Input() src: string;
-  constructor(private router: Router) {}
+  constructor(private router: Router, private formBuilder: FormBuilder) {}
 
   animationCreated(animationItem: AnimationItem): void {
     console.log(animationItem);
   }
 
   next(): void {
-    this.router.navigate(['/lobby']);
+    this.submitted = true;
+    if (this.form.invalid) {
+      return;
+    }
+    if (this.form.valid) {
+      this.router.navigate(['/lobby']);
+    }
   }
 
-  get f(): FormGroup['controls'] {
+  get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
   }
 
-  submit(): void {
-    console.log(this.form.value);
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+    });
   }
-
-  ngOnInit(): void {}
 }
