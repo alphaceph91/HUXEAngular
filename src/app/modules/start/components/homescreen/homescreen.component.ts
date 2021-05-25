@@ -2,7 +2,6 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
@@ -10,6 +9,7 @@ import { Router } from '@angular/router';
 
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
+import { Players } from '../../players';
 
 @Component({
   selector: 'app-homescreen',
@@ -36,105 +36,43 @@ export class HomescreenComponent implements OnInit {
   };
 
   pictureid = 0;
-
-  click = [
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-    false,
-  ];
+  selectedPlayer?: Players;
+  hoverPlayer?: Players;
   form: FormGroup;
   submitted = false;
+  click = false;
+  hover = false;
 
-  click1 = false;
-  hover1 = false;
-
-  click2 = false;
-  hover2 = false;
-
-  click3 = false;
-  hover3 = false;
-
-  click4 = false;
-  hover4 = false;
-
-  click5 = false;
-  hover5 = false;
-
-  click6 = false;
-  hover6 = false;
-
-  click7 = false;
-  hover7 = false;
-
-  click8 = false;
-  hover8 = false;
-
-  click9 = false;
-  hover9 = false;
-
-  click10 = false;
-  hover10 = false;
-
-  click11 = false;
-  hover11 = false;
-
-  click12 = false;
-  hover12 = false;
-
-  images: Array<string> = [
-    '1',
-    '2',
-    '3',
-    '4',
-    '5',
-    '6',
-    '7',
-    '8',
-    '9',
-    '10',
-    '11',
-    '12',
-  ];
-  colors: Array<string> = [
-    '#36b1a7',
-    '#fbae17',
-    '#5f5494',
-    '#fc9cc7',
-    '#e83942',
-    '#019678',
-    '#e83942',
-    '#019678',
-    '#36b1a7',
-    '#fbae17',
-    '#5f5494',
-    '#fc9cc7',
-  ];
-  colorshalf: Array<string> = [
-    'rgba(54, 177, 167,0.5)',
-    'rgba(251, 174, 23, 0.5)',
-    'rgba(95, 84, 148,0.5)',
-    'rgba(252, 156, 199,0.5)',
-    'rgba(232, 57, 66,0.5)',
-    'rgba(1, 150, 120, 0.5)',
-    'rgba(54, 177, 167,0.5)',
-    'rgba(251, 174, 23, 0.5)',
-    'rgba(95, 84, 148,0.5)',
-    'rgba(252, 156, 199,0.5)',
-    'rgba(232, 57, 66,0.5)',
-    'rgba(1, 150, 120, 0.5)',
+  avatars: Array<Players> = [
+    { id: 1, img: '1', color: '#36B1A7', colorHover: 'rgba(54,177,167,0.5)' },
+    { id: 2, img: '2', color: '#019678', colorHover: 'rgba(1,150,120,0.5)' },
+    { id: 3, img: '3', color: '#FC9CC7', colorHover: 'rgba(252,156,199,0.5)' },
+    { id: 4, img: '4', color: '#5F5494', colorHover: 'rgba(95, 84, 148 ,0.5)' },
+    { id: 5, img: '5', color: '#5F5494', colorHover: 'rgba(95, 84, 148 ,0.5)' },
+    { id: 6, img: '6', color: '#E83942', colorHover: 'rgba(232, 57, 66 ,0.5)' },
+    { id: 7, img: '7', color: '#019678', colorHover: 'rgba(1, 150, 120 ,0.5)' },
+    { id: 8, img: '8', color: '#E83942', colorHover: 'rgba(232, 57, 66 ,0.5)' },
+    { id: 9, img: '9', color: '#FBAE17', colorHover: 'rgba(251, 174, 23,0.5)' },
+    {
+      id: 10,
+      img: '10',
+      color: '#019678',
+      colorHover: 'rgba(1, 150, 120 ,0.5)',
+    },
+    {
+      id: 11,
+      img: '11',
+      color: '#36B1A7',
+      colorHover: 'rgba(54, 177, 167,0.5)',
+    },
+    {
+      id: 12,
+      img: '12',
+      color: '#FBAE17',
+      colorHover: 'rgba(251, 174, 23,0.5)',
+    },
   ];
 
-  @ViewChild('avatars')
-  avatars: ElementRef<HTMLDivElement> | null = null;
   @Input() src: string;
   constructor(private router: Router, private formBuilder: FormBuilder) {}
 
@@ -154,6 +92,14 @@ export class HomescreenComponent implements OnInit {
 
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
+  }
+
+  onClick(player: Players): void {
+    this.selectedPlayer = player;
+  }
+
+  onHover(player: Players): void {
+    this.hoverPlayer = player;
   }
 
   ngOnInit(): void {

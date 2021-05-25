@@ -4,31 +4,11 @@
 <div class="container">
 <div>
   <div class="avatar">
-    <div class=avatars>
-      <div class= colors [ngStyle]="{'background-color': click1 ? colors[1] : (hover1 ? colorshalf[1] : null) }" (click)="click1 = !click1" (mouseover)="hover1=!hover1">
-        <img class="profile" src="assets/Profiles/Animal_Faces/1.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click2 ? colors[2] : (hover2 ? colorshalf[2] : null) }" (click)="click2 = !click2" (mouseover)="hover2=!hover2">
-        <img class="profile" src="assets/Profiles/Animal_Faces/2.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click3 ? colors[3] : (hover3 ? colorshalf[3] : null) }" (click)="click3 = !click3" (mouseover)="hover3=!hover3">
-        <img class="profile" src="assets/Profiles/Animal_Faces/3.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click4 ? colors[4] : (hover4 ? colorshalf[4] : null) }" (click)="click4 = !click4" (mouseover)="hover4=!hover4">
-        <img class="profile" src="assets/Profiles/Animal_Faces/4.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click5 ? colors[5] : (hover5 ? colorshalf[5] : null) }" (click)="click5 = !click5" (mouseover)="hover5=!hover5">
-      <img class="profile" src="assets/Profiles/Animal_Faces/5.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click6 ? colors[6] : (hover6 ? colorshalf[6] : null) }" (click)="click6 = !click6" (mouseover)="hover6=!hover6">
-        <img class="profile" src="assets/Profiles/Animal_Faces/6.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click7 ? colors[7] : (hover7 ? colorshalf[7] : null) }" (click)="click7 = !click7" (mouseover)="hover7=!hover7">
-        <img class="profile" src="assets/Profiles/Animal_Faces/7.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click8 ? colors[8] : (hover8 ? colorshalf[8] : null) }" (click)="click8 = !click8" (mouseover)="hover8=!hover8">
-        <img class="profile" src="assets/Profiles/Animal_Faces/8.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click9 ? colors[9] : (hover9 ? colorshalf[9] : null) }" (click)="click9 = !click9" (mouseover)="hover9=!hover9">
-        <img class="profile" src="assets/Profiles/Animal_Faces/9.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click10 ? colors[10] : (hover10 ? colorshalf[10] : null) }" (click)="click10 = !click10" (mouseover)="hover10=!hover10">
-        <img class="profile" src="assets/Profiles/Animal_Faces/10.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click11 ? colors[11] : (hover11 ? colorshalf[11] : null) }" (click)="click11 = !click11" (mouseover)="hover11=!hover11">
-        <img class="profile" src="assets/Profiles/Animal_Faces/11.svg" alt="Profile picture"></div>
-      <div class= colors [ngStyle]="{'background-color': click12 ? colors[4] : (hover12 ? colorshalf[4] : null) }" (click)="click12 = !click12" (mouseover)="hover12=!hover12">
-        <img class="profile" src="assets/Profiles/Animal_Faces/12.svg" alt="Profile picture"></div>
+    <div class=avatars >
+      <div class= colors *ngFor="let item of avatars"
+      [style.background]=" item === selectedPlayer ? item.color : ( item === hoverPlayer ? item.colorHover : null)"
+      (click)="onClick(item)" (mouseover)="onHover(item)">
+        <img class="profile" src="assets/Profiles/Animal_Faces/{{item.img}}.svg" alt="Profile picture" [style.opacity]=" item === hoverPlayer ? 100 : null"></div>
     </div>
     <form [formGroup]="form" (ngSubmit)="next()">
       <div class="form-group">
