@@ -2,11 +2,18 @@ import {Action, NgxsOnInit, Selector, State, StateContext, Store} from '@ngxs/st
 import firebase from 'firebase';
 import User = firebase.User;
 import {AngularFireAuth} from '@angular/fire/auth';
-import {Injectable} from '@angular/core';
+import {Host, Injectable} from '@angular/core';
 import {from, Observable, of} from 'rxjs';
 import {AuthState} from './auth.state';
 import {AngularFirestore} from '@angular/fire/firestore';
-import {ListenToGameState, ListenToPlayersList, SetGameState, SetPlayers} from './game.actions';
+import {
+  GetAllPlayers,
+  GetGameState,
+  ListenToGameState,
+  ListenToPlayersList,
+  SetGameState,
+  SetPlayers
+} from './game.actions';
 import {HostState, HostStateModel} from './host.state';
 import {switchMap, tap} from 'rxjs/operators';
 import {PlayerState, PlayerStateModel} from './player.state';
@@ -53,6 +60,7 @@ export class GameState implements NgxsOnInit {
 
   @Action(SetGameState)
   setGameState(context: StateContext<GameStateModel>, action: SetGameState): void {
+    console.log('setGameState');
     context.patchState({
       state: action.state,
     });
@@ -63,6 +71,19 @@ export class GameState implements NgxsOnInit {
     context.patchState({
       players: action.players,
     });
+  }
+
+  @Action(GetGameState)
+  getGameState(context: StateContext<GameStateModel>, action: GetGameState): void {
+    this.angularFireStore
+      .collection('game')
+      .doc(action.hostId)
+      .collection<any>('gamestate')
+      .doc('state')
+      .get()
+      .subscribe(state => {
+        context.dispatch(new SetGameState(state.get('state')));
+      });
   }
 
   @Action(ListenToPlayersList)
@@ -92,6 +113,8 @@ export class GameState implements NgxsOnInit {
 
   @Action(ListenToGameState)
   listenToGameState(context: StateContext<GameStateModel>, action: ListenToGameState): void {
+    console.log('LISTENTOGAMESTATE1');
+    console.log(HostState.hostId);
     this.store.select(HostState.hostId)
       .pipe(
         switchMap(hostId => {
@@ -108,7 +131,8 @@ export class GameState implements NgxsOnInit {
               })
               .pipe(
                 tap(state => {
-                  context.dispatch(new SetGameState(state));
+                  console.log('LISTENTOGAMESTATE2');
+                  context.dispatch(new SetGameState(state.state));
                 })
               );
           }

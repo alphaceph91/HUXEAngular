@@ -3,13 +3,14 @@ import firebase from 'firebase';
 import User = firebase.User;
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Injectable} from '@angular/core';
-import {AddHost, ChangeGameState, InitializeHost, SetHost, SetHostByPlayer, SetHostWithId} from './host.actions';
+import {AddHost, ChangeGameState, InitializeHost, SetHostByHost, SetHostByPlayer, SetHostWithId} from './host.actions';
 import {from, Observable} from 'rxjs';
 import {AuthState} from './auth.state';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {GameStateModel} from './game.state';
 import {tap} from "rxjs/operators";
 import {SetPlayers} from "./game.actions";
+import {host} from "@angular-devkit/build-angular/src/test-utils";
 
 export interface HostStateModel {
   id: string;
@@ -33,7 +34,8 @@ export class HostState implements NgxsOnInit {
               private store: Store) {
   }
 
-  ngxsOnInit(context?: StateContext<HostStateModel>): any {
+  ngxsOnInit(context?: StateContext<HostStateModel>): void {
+    console.log('HOSTSTATEANAN');
   }
 
   @Selector()
@@ -41,8 +43,8 @@ export class HostState implements NgxsOnInit {
     return state.hostId || null;
   }
 
-  @Action(SetHost)
-  setHost(context: StateContext<HostStateModel>, action: SetHost): void {
+  @Action(SetHostByHost)
+  setHostByHost(context: StateContext<HostStateModel>, action: SetHostByHost): void {
     context.patchState({
       name: action.name,
       hostId: this.store.selectSnapshot(AuthState.userId)
@@ -51,14 +53,20 @@ export class HostState implements NgxsOnInit {
 
   @Action(SetHostByPlayer)
   setHostByPlayer(context: StateContext<HostStateModel>, action: SetHostByPlayer): Observable<any> {
+    console.log('setHostByPlayer');
     return this.angularFireStore
       .collection('game')
       .doc(action.hostId)
       .collection<any>('host')
+      .doc('host')
       .get()
       .pipe(
-        tap(host => {
-          context.dispatch(new SetHostWithId(host.name, host.hostId));
+        tap(hostInformation => {
+          console.log('hostInformation');
+          console.log(hostInformation);
+          console.log(hostInformation._delegate._document.data.partialValue.mapValue.fields.hostId.stringValue);
+          context.dispatch(new SetHostWithId(hostInformation._delegate._document.data.partialValue.mapValue.fields.name.stringValue,
+            hostInformation._delegate._document.data.partialValue.mapValue.fields.hostId.stringValue));
         })
       );
   }
@@ -87,18 +95,21 @@ export class HostState implements NgxsOnInit {
   }
 
   @Action(InitializeHost)
-  initializeHost(context: StateContext<HostStateModel>, action: InitializeHost): void {
+  initializeHost(context: StateContext<HostStateModel>, action: InitializeHost): any {
     context.dispatch(new AddHost(action.name)).subscribe(() => {
-      context.dispatch(new SetHost(action.name));
+      context.dispatch(new SetHostByHost(action.name));
     });
   }
 
   @Action(ChangeGameState)
   changeGameState(context: StateContext<GameStateModel>, action: ChangeGameState): Observable<any> {
-    const hostId = this.store.selectSnapshot(AuthState.userId);
+    const authID = this.store.selectSnapshot(AuthState.userId);
+    console.log('authID');
+    console.log('authchangeGameStateID');
+    console.log(authID);
     return from(this.angularFireStore
       .collection('game')
-      .doc(hostId)
+      .doc(authID)
       .collection<Partial<any>>('gamestate')
       .doc('state')
       .set({

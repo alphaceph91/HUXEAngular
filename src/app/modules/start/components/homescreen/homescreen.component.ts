@@ -1,7 +1,7 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {Actions, ofActionDispatched, Store} from '@ngxs/store';
 import {AuthState} from '../../../../store/auth.state';
-import {AddHost, ChangeGameState, InitializeHost, SetHost} from '../../../../store/host.actions';
+import {AddHost, ChangeGameState, InitializeHost, SetHostByHost} from '../../../../store/host.actions';
 import {AddPlayer, InitializePlayer} from '../../../../store/player.actions';
 import {GameState} from '../../../../store/game.state';
 import {
@@ -15,6 +15,8 @@ import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { Players } from '../../players';
+import {SetPlayers} from "../../../../store/game.actions";
+import {HostState} from "../../../../store/host.state";
 
 @Component({
   selector: 'app-homescreen',
@@ -47,6 +49,7 @@ export class HomescreenComponent implements OnInit {
 
   pictureid = 0;
   selectedPlayer?: Players;
+  selectedAvatar?: Players;
   hoverPlayer?: Players;
   form: FormGroup;
   submitted = false;
@@ -89,7 +92,6 @@ export class HomescreenComponent implements OnInit {
   hostId: string;
 
   animationCreated(animationItem: AnimationItem): void {
-    console.log(animationItem);
   }
 
   next(): void {
@@ -98,7 +100,10 @@ export class HomescreenComponent implements OnInit {
       return;
     }
     if (this.form.valid) {
-      this.router.navigate(['/lobby']);
+      console.log('VALIDATIOOON!');
+      console.log(this.store.selectSnapshot(HostState.hostId));
+      this.store.dispatch(new AddPlayer(this.playerName, this.store.selectSnapshot(HostState.hostId)))
+        .subscribe(() => this.router.navigate(['/lobby']));
     }
   }
   ngOnInit(): void {
@@ -113,24 +118,9 @@ export class HomescreenComponent implements OnInit {
     });
   }
 
-  onHost(): void {
-    if (this.hostName) {
-      this.store.dispatch([new InitializeHost(this.hostName),
-        new InitializePlayer(this.hostName, this.store.selectSnapshot(AuthState.userId)),
-        new ChangeGameState('Lobby')
-      ]);
-    }
-  }
-
-  onPlay(): void {
-    if (this.hostName) {
-      this.store.dispatch([new SetHost(this.hostName),
-        new InitializePlayer(this.hostName, this.store.selectSnapshot(AuthState.userId))]);
-    }
-  }
-
-  onClick(player: Players): void {
-    this.selectedPlayer = player;
+  onClick(avatar: Players): void {
+    console.log(avatar);
+    this.selectedAvatar = avatar;
   }
 
   onHover(player: Players): void {

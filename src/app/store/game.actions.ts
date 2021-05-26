@@ -33,3 +33,17 @@ export class SetPlayers {
   }
 }
 
+export class GetAllPlayers {
+  static readonly type = '[Game] GetAllPlayers';
+
+  constructor(public players: PlayerStateModel[] | null) {
+  }
+}
+
+export class GetGameState {
+  static readonly type = '[Game] GetGameState';
+
+  constructor(public hostId: string | null) {
+  }
+}
+

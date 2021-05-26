@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import {Actions, ofActionDispatched, Store} from "@ngxs/store";
-import {ChangeGameState, InitializeHost, SetHost} from "../../../../store/host.actions";
+import {Actions, ofActionCompleted, ofActionDispatched, ofActionSuccessful, Store} from "@ngxs/store";
+import {ChangeGameState, InitializeHost, SetHostByHost, SetHostByPlayer} from "../../../../store/host.actions";
 import {Router} from "@angular/router";
 import {FormBuilder} from "@angular/forms";
 import {InitializePlayer} from "../../../../store/player.actions";
 import {AuthState} from "../../../../store/auth.state";
+import {GetGameState, ListenToGameState, ListenToPlayersList, SetGameState} from "../../../../store/game.actions";
 
 @Component({
   selector: 'app-init',
@@ -20,26 +21,31 @@ export class InitComponent implements OnInit {
 
   ngOnInit(): void {
     // subscribe to game state change. To understand the change and route
-    this.actions$.pipe(ofActionDispatched(ChangeGameState)).subscribe((payload) =>
+    this.actions$.pipe(ofActionSuccessful(SetGameState)).subscribe((payload) =>
     {
-      console.log('payload.state');
-      console.log(payload.state);
+      if (payload.state === 'homescreen') {
+        this.router.navigate(['/homescreen']);
+      } else if (payload.state.state === 'lobby') {
+        this.router.navigate(['/lobby']);
+      }
     });
   }
 
   onHost(): void {
-    if (this.hostName) {
-      this.store.dispatch([new InitializeHost(''),
-        new InitializePlayer('', this.store.selectSnapshot(AuthState.userId)),
-        new ChangeGameState('Name')
-      ]);
-    }
+    this.store.dispatch([new InitializeHost(''),
+      new InitializePlayer('', this.store.selectSnapshot(AuthState.userId)),
+      new ListenToPlayersList(),
+      new ChangeGameState('homescreen'), new ListenToGameState()
+    ]);
   }
 
+  // new GetGameState(this.hostId) for going directly to gamestate. However we need to check if the name is defined.
   onPlay(): void {
-    if (this.hostName) {
-      this.store.dispatch([new SetHost(this.hostName),
-        new InitializePlayer('', this.store.selectSnapshot(AuthState.userId))]);
+    if (this.hostId) {
+      this.store.dispatch([new SetHostByPlayer(this.hostId),
+        new InitializePlayer('', this.hostId),
+        new ListenToPlayersList(),
+        ]).subscribe(() => this.router.navigate(['/homescreen']));
     }
   }
 

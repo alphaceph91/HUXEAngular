@@ -5,14 +5,14 @@ import firebase from 'firebase';
 import User = firebase.User;
 
 export class SetPlayer {
-  static readonly type = '[Player] SetHost';
+  static readonly type = '[Player] SetPlayer';
 
   constructor(public name: string | null, public hostId: string ) {
   }
 }
 
 export class AddPlayer {
-  static readonly type = '[Player] SetHost';
+  static readonly type = '[Player] AddPlayer';
 
   constructor(public name: string | null, public hostId: string ) {
   }
@@ -26,28 +26,28 @@ export class InitializePlayer {
 }
 
 export class SetText {
-  static readonly type = '[Player] SetHost';
+  static readonly type = '[Player] SetText';
 
   constructor(public name: string | null ) {
   }
 }
 
 export class AddText {
-  static readonly type = '[Player] SetHost';
+  static readonly type = '[Player] AddText';
 
   constructor(public name: string | null ) {
   }
 }
 
 export class SetDrawing {
-  static readonly type = '[Player] SetHost';
+  static readonly type = '[Player] SetDrawing';
 
   constructor(public name: string | null ) {
   }
 }
 
 export class AddDrawing {
-  static readonly type = '[Player] SetHost';
+  static readonly type = '[Player] AddDrawing';
 
   constructor(public name: string | null ) {
   }

@@ -31,6 +31,7 @@ export class AuthState implements NgxsOnInit {
   ngxsOnInit(context?: StateContext<AuthStateModel>): any {
     // Means that the state hes been setup and working properly.
     // This is a chance to setup/emit user changes.
+    console.log('AUTHSTATEINIT');
     this.authService.authState.subscribe(user => {
       context.dispatch(new UserChanged(user));
     });

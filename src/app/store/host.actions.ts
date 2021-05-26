@@ -4,7 +4,7 @@
 import firebase from 'firebase';
 import User = firebase.User;
 
-export class SetHost {
+export class SetHostByHost {
   static readonly type = '[Host] SetHost';
 
   constructor(public name: string | null ) {

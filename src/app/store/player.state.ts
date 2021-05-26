@@ -3,7 +3,7 @@ import firebase from 'firebase';
 import User = firebase.User;
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Injectable} from '@angular/core';
-import {InitializeHost, SetHost} from './host.actions';
+import {InitializeHost, SetHostByHost} from './host.actions';
 import {from, Observable} from 'rxjs';
 import {AuthState} from './auth.state';
 import {AngularFirestore} from '@angular/fire/firestore';
@@ -35,7 +35,8 @@ export class PlayerState implements NgxsOnInit {
               private store: Store) {
   }
 
-  ngxsOnInit(context?: StateContext<PlayerStateModel>): any {
+  ngxsOnInit(context?: StateContext<any>): any {
+    console.log('HOSTSTATEANAN');
   }
 
   @Action(SetPlayer)
