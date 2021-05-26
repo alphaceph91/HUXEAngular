@@ -1,4 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {Actions, ofActionDispatched, Store} from '@ngxs/store';
+import {AuthState} from '../../../../store/auth.state';
+import {AddHost, ChangeGameState, InitializeHost, SetHostByHost} from '../../../../store/host.actions';
+import {AddPlayer, InitializePlayer} from '../../../../store/player.actions';
+import {GameState} from '../../../../store/game.state';
 import {
   AbstractControl,
   FormBuilder,
@@ -10,6 +15,8 @@ import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { Players } from '../../players';
+import {SetPlayers} from "../../../../store/game.actions";
+import {HostState} from "../../../../store/host.state";
 
 @Component({
   selector: 'app-homescreen',
@@ -17,6 +24,11 @@ import { Players } from '../../players';
   styleUrls: ['./homescreen.component.scss'],
 })
 export class HomescreenComponent implements OnInit {
+  constructor(private router: Router, private formBuilder: FormBuilder, private store: Store, private actions$: Actions) {}
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
+  }
   laughs: AnimationOptions = {
     path: '/assets/Animations/Laughs/1443-laughs.json',
   };
@@ -37,6 +49,7 @@ export class HomescreenComponent implements OnInit {
 
   pictureid = 0;
   selectedPlayer?: Players;
+  selectedAvatar?: Players;
   hoverPlayer?: Players;
   form: FormGroup;
   submitted = false;
@@ -74,10 +87,11 @@ export class HomescreenComponent implements OnInit {
   ];
 
   @Input() src: string;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
+  hostName: string;
+  playerName: string;
+  hostId: string;
 
   animationCreated(animationItem: AnimationItem): void {
-    console.log(animationItem);
   }
 
   next(): void {
@@ -86,25 +100,30 @@ export class HomescreenComponent implements OnInit {
       return;
     }
     if (this.form.valid) {
-      this.router.navigate(['/lobby']);
+      console.log('VALIDATIOOON!');
+      console.log(this.store.selectSnapshot(HostState.hostId));
+      this.store.dispatch(new AddPlayer(this.playerName, this.store.selectSnapshot(HostState.hostId)))
+        .subscribe(() => this.router.navigate(['/lobby']));
     }
   }
-
-  get f(): { [key: string]: AbstractControl } {
-    return this.form.controls;
+  ngOnInit(): void {
+    // subscribe to game state change. To understand the change and route
+    this.actions$.pipe(ofActionDispatched(ChangeGameState)).subscribe((payload) =>
+    {
+      console.log('payload.state');
+      console.log(payload.state);
+    });
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
+    });
   }
 
-  onClick(player: Players): void {
-    this.selectedPlayer = player;
+  onClick(avatar: Players): void {
+    console.log(avatar);
+    this.selectedAvatar = avatar;
   }
 
   onHover(player: Players): void {
     this.hoverPlayer = player;
-  }
-
-  ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-    });
   }
 }

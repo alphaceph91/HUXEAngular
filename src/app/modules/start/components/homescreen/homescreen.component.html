@@ -1,58 +1,70 @@
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <div class="container">
-<div>
-  <div class="avatar">
-    <div class=avatars >
-      <div class= colors *ngFor="let item of avatars"
-      [style.background]=" item === selectedPlayer ? item.color : ( item === hoverPlayer ? item.colorHover : null)"
-      (click)="onClick(item)" (mouseover)="onHover(item)">
-        <img class="profile" src="assets/Profiles/Animal_Faces/{{item.img}}.svg" alt="Profile picture" [style.opacity]=" item === hoverPlayer ? 100 : null"></div>
-    </div>
-    <form [formGroup]="form" (ngSubmit)="next()">
-      <div class="form-group">
-            <label for="description" id='choose'> Choose your avatar</label>
-            <input formControlName="name" type="text" id="description" name="description" placeholder="Enter a cool name">
-          <div *ngIf="submitted  && f.name.invalid" class="error">
-              <div *ngIf="f.name.errors.required">Name is required.</div>
-              <div *ngIf="f.name.errors.minlength">Name should be 3 character.</div>
-          </div>
-          <button  class="done" type="submit" (click)='next()'> <img src="../assets/play.png" alt="done" class="clearImg"> Start </button>
+  <div>
+    <div class="avatar">
+      <div class=avatars>
+        <div class=colors *ngFor="let item of avatars"
+             [style.background]=" item === selectedPlayer ? item.color : ( item === hoverPlayer ? item.colorHover : null)"
+             (click)="onClick(item)" (mouseover)="onHover(item)">
+          <img class="profile" src="assets/Profiles/Animal_Faces/{{item.img}}.svg" alt="Profile picture"
+               [style.opacity]=" item === hoverPlayer ? 100 : null"></div>
       </div>
-  </form>
+      <form [formGroup]="form" (ngSubmit)="next()">
+        <div class="form-group">
+          <label for="description" id='choose'> Choose your avatar</label>
+          <input [(ngModel)]="playerName" formControlName="name" type="text" id="description" name="description" placeholder="Enter a cool name">
+          <div *ngIf="submitted  && f.name.invalid" class="error">
+            <div *ngIf="f.name.errors.required">Name is required.</div>
+            <div *ngIf="f.name.errors.minlength">Name should be 3 character.</div>
+          </div>
+          <button class="done" type="submit" (click)='next()'><img src="../assets/play.png" alt="done" class="clearImg">
+            Start
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
-</div>
   <div id="carouselExampleIndicators" class="carousel slide carrousel" data-bs-ride="carousel">
     <div class="carousel-indicators">
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
-      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
+              aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
+              aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"
+              aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3"
+              aria-label="Slide 4"></button>
     </div>
     <div class="carousel-inner">
       <div class="carousel-item active">
         <h2>HOW TO PLAY</h2>
         <h4>1. TIME TO WRITE</h4>
-        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="write" (animationCreated)="animationCreated($event)"></ng-lottie>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="write"
+                   (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">Each player must write a funny sentence</p>
       </div>
       <div class="carousel-item">
         <h2>HOW TO PLAY</h2>
         <h4>2. TIME TO DRAW</h4>
-        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="draw" (animationCreated)="animationCreated($event)"></ng-lottie>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="draw"
+                   (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">You will receive a bizarre sentence to draw</p>
       </div>
       <div class="carousel-item">
         <h2>HOW TO PLAY</h2>
         <h4>3. GUESS IT RIGHT</h4>
-        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="guess" (animationCreated)="animationCreated($event)"></ng-lottie>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="guess"
+                   (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">Try to describe one the bizarre drawings</p>
       </div>
       <div class="carousel-item">
         <h2>HOW TO PLAY</h2>
         <h4>4. HAVE A LAUGH</h4>
-        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="laughs" (animationCreated)="animationCreated($event)"></ng-lottie>
+        <ng-lottie width="200px" height="150px" [styles]="styles" [options]="laughs"
+                   (animationCreated)="animationCreated($event)"></ng-lottie>
         <p class="howto">Check the hilarious results made by you</p>
       </div>
     </div>

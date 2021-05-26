@@ -1,11 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import {Actions, ofActionSuccessful, Select, Store} from "@ngxs/store";
+import {AuthState} from "../../../../store/auth.state";
+import {Observable} from "rxjs";
+import {GameState} from "../../../../store/game.state";
+import {ListenToPlayersList, SetGameState, SetPlayers} from "../../../../store/game.actions";
+import {HostState} from "../../../../store/host.state";
+import firebase from "firebase";
+import Auth = firebase.auth.Auth;
+import {host} from "@angular-devkit/build-angular/src/test-utils";
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
   styleUrls: ['./lobby.component.scss'],
 })
 export class LobbyComponent implements OnInit {
+  @Select(GameState.players) players$: Observable<any>;
+
+  isHost: boolean;
+
   playerNumber = ['4', '6', '8', '10'];
   num = 4;
   flipval = false;
@@ -38,7 +51,7 @@ export class LobbyComponent implements OnInit {
     this.flipval2 = false;
     this.flipval = false;
   }
-  constructor(private router: Router) {}
+  constructor(private router: Router, private actions$: Actions, private store: Store) {}
 
   next() {
     this.router.navigate(['/first']);
@@ -48,5 +61,12 @@ export class LobbyComponent implements OnInit {
     this.router.navigate(['/']);
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.store.dispatch(new ListenToPlayersList());
+    const hostId = this.store.selectSnapshot(HostState.hostId);
+    const userId = this.store.selectSnapshot(AuthState.userId);
+    if (hostId !== null) {
+      this.isHost = hostId === userId;
+    }
+  }
 }
