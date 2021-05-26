@@ -30,10 +30,15 @@
       <div class= colors [ngStyle]="{'background-color': click12 ? colors[4] : (hover12 ? colorshalf[4] : null) }" (click)="click12 = !click12" (mouseover)="hover12=!hover12">
         <img class="profile" src="assets/Profiles/Animal_Faces/12.svg" alt="Profile picture"></div>
     </div>
-    <form action="">
+    <form (ngSubmit)="onHost()">
       <label for="description" id='choose'> Choose your avatar</label>
-      <input type="text" id="description" name="description" placeholder="Enter a cool name">
-      <button  class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Start </button>
+      <input [(ngModel)]="hostName" type="text" id="description" name="description" placeholder="Enter a cool name">
+      <button type="submit" class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Host </button>
+    </form>
+    <form (ngSubmit)="onPlay()">
+      <input [(ngModel)]="hostId" type="text" id="hostId" name="hostId" placeholder="Host ID">
+      <input [(ngModel)]="playerName" type="text" id="playerName" name="playerName" placeholder="Player name">
+      <button type="submit" class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Play </button>
     </form>
   </div>
 </div>

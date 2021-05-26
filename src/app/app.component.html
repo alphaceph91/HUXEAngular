@@ -1,5 +1,6 @@
 <div class="py-4 main">
-  <app-lobby></app-lobby>
+  {{userId$ | async}}
+  <router-outlet></router-outlet>
 </div>
 <!--
   <div class="container py-4 main">

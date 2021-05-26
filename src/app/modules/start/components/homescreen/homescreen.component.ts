@@ -1,4 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {Actions, ofActionDispatched, Store} from '@ngxs/store';
+import {AuthState} from "../../../../store/auth.state";
+import {AddHost, ChangeGameState, InitializeHost, SetHost} from "../../../../store/host.actions";
+import {AddPlayer, InitializePlayer} from "../../../../store/player.actions";
+import {GameState} from "../../../../store/game.state";
 
 @Component({
   selector: 'app-homescreen',
@@ -88,7 +93,11 @@ export class HomescreenComponent implements OnInit {
   @ViewChild('avatars')
   avatars: ElementRef<HTMLDivElement> | null = null;
   @Input() src: string;
-  constructor() {}
+  hostName: string;
+  playerName: string;
+  hostId: string;
+
+  constructor(private store: Store, private actions$: Actions) {}
 
   onClick(color: string): void {
     this.avatars.nativeElement.style.backgroundColor = color;
@@ -98,5 +107,27 @@ export class HomescreenComponent implements OnInit {
     this.avatars.nativeElement.style.backgroundColor = color;
     console.log(color);
   }
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.actions$.pipe(ofActionDispatched(ChangeGameState)).subscribe((payload) =>
+    {
+      console.log('payload.state');
+      console.log(payload.state);
+    });
+  }
+
+  onHost(): void {
+    if (this.hostName) {
+      this.store.dispatch([new InitializeHost(this.hostName),
+        new InitializePlayer(this.hostName, this.store.selectSnapshot(AuthState.userId)),
+        new ChangeGameState('Lobby')
+      ]);
+    }
+  }
+
+  onPlay(): void {
+    if (this.hostName) {
+      this.store.dispatch([new SetHost(this.hostName),
+        new InitializePlayer(this.hostName, this.store.selectSnapshot(AuthState.userId))]);
+    }
+  }
 }
