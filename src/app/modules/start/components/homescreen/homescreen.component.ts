@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import {Actions, ofActionDispatched, Store} from '@ngxs/store';
-import {AuthState} from "../../../../store/auth.state";
-import {AddHost, ChangeGameState, InitializeHost, SetHost} from "../../../../store/host.actions";
-import {AddPlayer, InitializePlayer} from "../../../../store/player.actions";
-import {GameState} from "../../../../store/game.state";
+import {AuthState} from '../../../../store/auth.state';
+import {AddHost, ChangeGameState, InitializeHost, SetHost} from '../../../../store/host.actions';
+import {AddPlayer, InitializePlayer} from '../../../../store/player.actions';
+import {GameState} from '../../../../store/game.state';
 import {
   AbstractControl,
   FormBuilder,
@@ -22,6 +22,11 @@ import { Players } from '../../players';
   styleUrls: ['./homescreen.component.scss'],
 })
 export class HomescreenComponent implements OnInit {
+  constructor(private router: Router, private formBuilder: FormBuilder, private store: Store, private actions$: Actions) {}
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.form.controls;
+  }
   laughs: AnimationOptions = {
     path: '/assets/Animations/Laughs/1443-laughs.json',
   };
@@ -79,16 +84,13 @@ export class HomescreenComponent implements OnInit {
   ];
 
   @Input() src: string;
-  constructor(private router: Router, private formBuilder: FormBuilder) {}
-
-  animationCreated(animationItem: AnimationItem): void {
-    console.log(animationItem);
-  }
   hostName: string;
   playerName: string;
   hostId: string;
 
-  constructor(private store: Store, private actions$: Actions) {}
+  animationCreated(animationItem: AnimationItem): void {
+    console.log(animationItem);
+  }
 
   next(): void {
     this.submitted = true;
@@ -99,15 +101,15 @@ export class HomescreenComponent implements OnInit {
       this.router.navigate(['/lobby']);
     }
   }
-
-  get f(): { [key: string]: AbstractControl } {
-    return this.form.controls;
-  }
   ngOnInit(): void {
+    // subscribe to game state change. To understand the change and route
     this.actions$.pipe(ofActionDispatched(ChangeGameState)).subscribe((payload) =>
     {
       console.log('payload.state');
       console.log(payload.state);
+    });
+    this.form = this.formBuilder.group({
+      name: ['', [Validators.required, Validators.minLength(3)]],
     });
   }
 
@@ -133,11 +135,5 @@ export class HomescreenComponent implements OnInit {
 
   onHover(player: Players): void {
     this.hoverPlayer = player;
-  }
-
-  ngOnInit(): void {
-    this.form = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3)]],
-    });
   }
 }
