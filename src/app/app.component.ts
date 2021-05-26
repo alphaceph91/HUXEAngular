@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import {Select} from '@ngxs/store';
+import {AuthState} from './store/auth.state';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -6,6 +9,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  @Select(AuthState.userId) userId$: Observable<string>;
   title = 'create-drawing';
   base64 = '';
   saveImage(base64: string): void {

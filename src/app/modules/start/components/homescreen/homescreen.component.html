@@ -21,6 +21,16 @@
           <button  class="done" type="submit" (click)='next()'> <img src="../assets/play.png" alt="done" class="clearImg"> Start </button>
       </div>
   </form>
+    <form (ngSubmit)="onHost()">
+      <label for="description" id='choose'> Choose your avatar</label>
+      <input [(ngModel)]="hostName" type="text" id="description" name="description" placeholder="Enter a cool name">
+      <button type="submit" class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Host </button>
+    </form>
+    <form (ngSubmit)="onPlay()">
+      <input [(ngModel)]="hostId" type="text" id="hostId" name="hostId" placeholder="Host ID">
+      <input [(ngModel)]="playerName" type="text" id="playerName" name="playerName" placeholder="Player name">
+      <button type="submit" class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Play </button>
+    </form>
   </div>
 </div>
   <div id="carouselExampleIndicators" class="carousel slide carrousel" data-bs-ride="carousel">
