@@ -10,7 +10,7 @@ import {AngularFirestore} from '@angular/fire/firestore';
 import {AddPlayer, InitializePlayer, SetPlayer} from './player.actions';
 import {HostState} from './host.state';
 
-//Player is ok. Host is ok
+// Player is ok. Host is ok
 // Now render players in lobby.
 
 export interface PlayerStateModel {

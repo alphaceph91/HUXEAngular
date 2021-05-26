@@ -12,13 +12,14 @@ import {GameState} from "../../store/game.state";
 
 import { LottieModule } from 'ngx-lottie';
 import player, { LottiePlayer } from 'lottie-web';
+import { InitComponent } from './components/init/init.component';
 
 export function playerFactory(): LottiePlayer {
   return player;
 }
 
 @NgModule({
-  declarations: [HomescreenComponent, LobbyComponent],
+  declarations: [HomescreenComponent, LobbyComponent, InitComponent],
   imports: [
     CommonModule,
     FormsModule,

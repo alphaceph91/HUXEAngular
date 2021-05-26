@@ -6,9 +6,11 @@ import { DrawingEditorComponent } from './modules/gamelogic/components/drawing-e
 import { GameStartComponent } from './modules/gamelogic/components/game-start/game-start.component';
 import { HomescreenComponent } from './modules/start/components/homescreen/homescreen.component';
 import { LobbyComponent } from './modules/start/components/lobby/lobby.component';
+import {InitComponent} from './modules/start/components/init/init.component';
 
 const routes: Routes = [
   { path: '', component: HomescreenComponent },
+  { path: 'init', component: InitComponent },
   { path: 'lobby', component: LobbyComponent },
   { path: 'first', component: GameStartComponent },
   { path: 'draw', component: DrawingEditorComponent },
