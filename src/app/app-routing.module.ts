@@ -8,10 +8,14 @@ import { HomescreenComponent } from './modules/start/components/homescreen/homes
 import { LobbyComponent } from './modules/start/components/lobby/lobby.component';
 import {InitComponent} from './modules/start/components/init/init.component';
 
-const routes: Routes = [ {
+const routes: Routes = [{
   path: '',
   loadChildren: () => import('./modules/start/start.module').then(m => m.StartModule)
 },
+  {
+    path: 'game',
+    loadChildren: () => import('./modules/gamelogic/gamelogic.module').then(m => m.GamelogicModule)
+  },
 ];
 
 @NgModule({

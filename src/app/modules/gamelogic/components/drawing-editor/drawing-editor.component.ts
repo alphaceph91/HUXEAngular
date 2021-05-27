@@ -6,21 +6,31 @@ import {
   Output,
   EventEmitter,
   HostListener,
-  OnDestroy,
+  OnDestroy, OnInit,
 } from '@angular/core';
-import { Router } from '@angular/router';
-import { fromEvent } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import {Router} from '@angular/router';
+import {fromEvent} from 'rxjs';
+import {delay, map, tap} from 'rxjs/operators';
+import {Store} from "@ngxs/store";
+import {AngularFirestore} from "@angular/fire/firestore";
+import {HostState} from "../../../../store/host.state";
+import {AuthState} from "../../../../store/auth.state";
+
 declare interface Position {
   offsetX: number;
   offsetY: number;
 }
+
 @Component({
   selector: 'app-drawing-editor',
   templateUrl: './drawing-editor.component.html',
   styleUrls: ['./drawing-editor.components.scss'],
 })
-export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
+export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy {
+
+  isHost: boolean;
+  shuffledText: string;
+
   @ViewChild('drawingCanvas')
   canvas: ElementRef<HTMLCanvasElement> | null = null;
   ctx: CanvasRenderingContext2D | null = null;
@@ -32,12 +42,12 @@ export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
   img = '';
   position:
     | [
-        {
-          start: {};
-          stop: {};
-          color: string;
-        }
-      ]
+    {
+      start: {};
+      stop: {};
+      color: string;
+    }
+  ]
     | undefined;
   line = [];
   prevPos: Position = {
@@ -48,7 +58,8 @@ export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
   refreshImg: any;
   mouseUpSubscription: any;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private store: Store, private firestore: AngularFirestore) {
+  }
 
   next() {
     this.router.navigate(['/describe']);
@@ -118,13 +129,13 @@ export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
   }
 
   @HostListener('mousemove', ['$event'])
-  onMouseMove({ offsetX, offsetY }): void {
+  onMouseMove({offsetX, offsetY}): void {
     if (this.currentyDrawing) {
-      const offSetData = { offsetX, offsetY };
+      const offSetData = {offsetX, offsetY};
       this.position = [
         {
-          start: { ...this.prevPos },
-          stop: { ...offSetData },
+          start: {...this.prevPos},
+          stop: {...offSetData},
           color: this.color,
         },
       ];
@@ -141,9 +152,10 @@ export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
       offsetY,
     };
   }
+
   draw(
-    { offsetX: x, offsetY: y }: Position,
-    { offsetX, offsetY }: Position
+    {offsetX: x, offsetY: y}: Position,
+    {offsetX, offsetY}: Position
   ): void {
     // begin drawing
     this.ctx.beginPath();
@@ -159,7 +171,64 @@ export class DrawingEditorComponent implements AfterViewInit, OnDestroy {
       offsetY,
     };
   }
+
   ngOnDestroy(): void {
     this.mouseUpSubscription?.unsubscribe();
+  }
+
+  shuffleArray(array): void {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
+  ngOnInit(): void {
+    this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
+
+    // Subscribe to changes in shuffled text
+    this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection<any>('shuffledStories')
+      .valueChanges()
+      .subscribe((values) => {
+        const resultingElement = values.find(element => {
+          return element.id === this.store.selectSnapshot(AuthState.userId);
+        });
+        this.shuffledText = resultingElement.story;
+      });
+
+    // Send shuffled text to there
+    if (this.isHost) {
+      console.log('initialStories1');
+      this.firestore.collection('game')
+        .doc(this.store.selectSnapshot(HostState.hostId))
+        .collection<any>('initialStories')
+        .get()
+        .subscribe(stories => {
+          // Get strings and ids as arrays
+          // Shuffle them
+          // Create a new firebase collection shuffledStories and push the shuffled ones there.
+          // Then subscribe to the changes in that storage and create a state for the user's shown text
+          // Then subscribe to the state and get the text to draw.
+          const storyArray = [];
+          const userIdArray = [];
+          stories.docs.forEach(doc => {
+            console.log(doc);
+            console.log(doc.data());
+            console.log(doc.data().story);
+            storyArray.push(doc.data().story);
+            userIdArray.push(doc.data().id);
+          });
+          this.shuffleArray(storyArray);
+          userIdArray.forEach((element, index) => {
+            this.firestore.collection('game')
+              .doc(this.store.selectSnapshot(HostState.hostId))
+              .collection<any>('shuffledStories')
+              .doc(element)
+              .set({story: storyArray[index], id: element});
+          });
+        });
+    }
   }
 }

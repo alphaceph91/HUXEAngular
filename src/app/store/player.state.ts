@@ -4,7 +4,7 @@ import User = firebase.User;
 import {AngularFireAuth} from '@angular/fire/auth';
 import {Injectable} from '@angular/core';
 import {InitializeHost, SetHostByHost} from './host.actions';
-import {from, Observable} from 'rxjs';
+import {from, Observable, of} from 'rxjs';
 import {AuthState} from './auth.state';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AddPlayer, InitializePlayer, SetPlayer} from './player.actions';
@@ -52,21 +52,41 @@ export class PlayerState implements NgxsOnInit {
     console.log('addPlayer');
     console.log(this.store.selectSnapshot(AuthState.userId));
     console.log(action.hostId);
-    return from(this.angularFireStore
-      .collection('game')
+    return of(this.angularFireStore.collection('game')
       .doc(action.hostId)
       .collection<any>('players')
-      .doc(this.store.selectSnapshot(AuthState.userId))
-      .set({
-        name: action.name,
-        playerId: this.store.selectSnapshot(AuthState.userId)
-      }));
+      .doc(this.store.selectSnapshot(AuthState.userId)).get().subscribe(docSnapshot => {
+        console.log('DOCSNAPSHOT');
+        if (docSnapshot.exists) {
+          return from(this.angularFireStore
+            .collection('game')
+            .doc(action.hostId)
+            .collection<any>('players')
+            .doc(this.store.selectSnapshot(AuthState.userId))
+            .update({
+              name: action.name,
+              playerId: this.store.selectSnapshot(AuthState.userId),
+              image: action.image
+            }));
+        } else {
+          return from(this.angularFireStore
+            .collection('game')
+            .doc(action.hostId)
+            .collection<any>('players')
+            .doc(this.store.selectSnapshot(AuthState.userId))
+            .set({
+              name: action.name,
+              playerId: this.store.selectSnapshot(AuthState.userId),
+              image: action.image
+            }));
+        }
+    }));
   }
 
   @Action(InitializePlayer)
   initializePlayer(context: StateContext<PlayerStateModel>, action: InitializePlayer): void {
-    context.dispatch(new AddPlayer(action.name, action.hostId)).subscribe(() => {
-      context.dispatch(new SetPlayer(action.name, action.hostId));
+    context.dispatch(new AddPlayer(action.name, action.hostId, action.image)).subscribe(() => {
+      context.dispatch(new SetPlayer(action.name, action.hostId, action.image));
     });
   }
 }

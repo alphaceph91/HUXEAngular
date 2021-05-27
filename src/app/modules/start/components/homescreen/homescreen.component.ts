@@ -15,8 +15,8 @@ import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { Players } from '../../players';
-import {SetPlayers} from "../../../../store/game.actions";
-import {HostState} from "../../../../store/host.state";
+import {SetGameState, SetPlayers} from '../../../../store/game.actions';
+import {HostState} from '../../../../store/host.state';
 
 @Component({
   selector: 'app-homescreen',
@@ -102,13 +102,15 @@ export class HomescreenComponent implements OnInit {
     if (this.form.valid) {
       console.log('VALIDATIOOON!');
       console.log(this.store.selectSnapshot(HostState.hostId));
-      this.store.dispatch(new AddPlayer(this.playerName, this.store.selectSnapshot(HostState.hostId)))
+      this.store.dispatch(new AddPlayer(this.playerName,
+        this.store.selectSnapshot(HostState.hostId),
+        './assets/Profiles/Animal_Faces/' + this.selectedAvatar.img + '.svg'))
         .subscribe(() => this.router.navigate(['/lobby']));
     }
   }
   ngOnInit(): void {
     // subscribe to game state change. To understand the change and route
-    this.actions$.pipe(ofActionDispatched(ChangeGameState)).subscribe((payload) =>
+    this.actions$.pipe(ofActionDispatched(SetGameState)).subscribe((payload) =>
     {
       console.log('payload.state');
       console.log(payload.state);

@@ -18,7 +18,8 @@
     </select>
     <div class='playerslist'>
       <div class="playerdiv" *ngFor="let player of players$ | async">
-        <p class="empty"><img src="./assets/noimg.png" alt="no player" class="noPlayer">
+        <p class="empty">
+          <img [src]="player.image" alt="img" class="noPlayer">
           {{player.name}}</p>
       </div>
       <div>
@@ -83,5 +84,7 @@
 </div>
 
 <button *ngIf="isHost" class="done" id="link"><img src="../assets/link.png" alt="done" id="linkImg"> Link</button>
-<button *ngIf="isHost" class="done" (click)="next()"><img src="../assets/play.png" alt="done" id="clearImg"> Start</button>
+<div *ngIf="players$ | async as players">
+  <button *ngIf="isHost && players.length > 1" class="done" (click)="next()"><img src="../assets/play.png" alt="done" id="clearImg"> Start</button>
+</div>
 

@@ -33,7 +33,7 @@ export class InitComponent implements OnInit {
 
   onHost(): void {
     this.store.dispatch([new InitializeHost(''),
-      new InitializePlayer('', this.store.selectSnapshot(AuthState.userId)),
+      new InitializePlayer('', this.store.selectSnapshot(AuthState.userId), ''),
       new ListenToPlayersList(),
       new ChangeGameState('homescreen'), new ListenToGameState()
     ]);
@@ -43,7 +43,7 @@ export class InitComponent implements OnInit {
   onPlay(): void {
     if (this.hostId) {
       this.store.dispatch([new SetHostByPlayer(this.hostId),
-        new InitializePlayer('', this.hostId),
+        new InitializePlayer('', this.hostId, ''),
         new ListenToPlayersList(),
         ]).subscribe(() => this.router.navigate(['/homescreen']));
     }

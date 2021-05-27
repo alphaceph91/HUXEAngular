@@ -1,14 +1,17 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router';
 import {Actions, ofActionSuccessful, Select, Store} from "@ngxs/store";
 import {AuthState} from "../../../../store/auth.state";
 import {Observable} from "rxjs";
 import {GameState} from "../../../../store/game.state";
-import {ListenToPlayersList, SetGameState, SetPlayers} from "../../../../store/game.actions";
+import {ListenToGameState, ListenToPlayersList, SetGameState, SetPlayers} from "../../../../store/game.actions";
 import {HostState} from "../../../../store/host.state";
 import firebase from "firebase";
 import Auth = firebase.auth.Auth;
 import {host} from "@angular-devkit/build-angular/src/test-utils";
+import {ChangeGameState} from "../../../../store/host.actions";
+import {AngularFirestore} from "@angular/fire/firestore";
+
 @Component({
   selector: 'app-lobby',
   templateUrl: './lobby.component.html',
@@ -51,10 +54,12 @@ export class LobbyComponent implements OnInit {
     this.flipval2 = false;
     this.flipval = false;
   }
-  constructor(private router: Router, private actions$: Actions, private store: Store) {}
+
+  constructor(private router: Router, private actions$: Actions, private store: Store, private firestore: AngularFirestore) {
+  }
 
   next() {
-    this.router.navigate(['/first']);
+    this.store.dispatch(new ChangeGameState('start'));
   }
 
   back() {
@@ -62,7 +67,20 @@ export class LobbyComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection<any>('gamestate')
+      .doc('state').valueChanges(value => {
+    }).subscribe((stateInFirestore) => {
+      if (stateInFirestore.state === 'start') {
+        this.router.navigate(['/start']);
+      }
+    });
     this.store.dispatch(new ListenToPlayersList());
+    // this.store.dispatch(new ListenToGameState());
+    if (this.isHost) {
+      this.store.dispatch(new ChangeGameState('lobby'));
+    }
     const hostId = this.store.selectSnapshot(HostState.hostId);
     const userId = this.store.selectSnapshot(AuthState.userId);
     if (hostId !== null) {

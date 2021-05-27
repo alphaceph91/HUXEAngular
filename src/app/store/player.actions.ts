@@ -7,21 +7,21 @@ import User = firebase.User;
 export class SetPlayer {
   static readonly type = '[Player] SetPlayer';
 
-  constructor(public name: string | null, public hostId: string ) {
+  constructor(public name: string | null, public hostId: string, public image: string | null ) {
   }
 }
 
 export class AddPlayer {
   static readonly type = '[Player] AddPlayer';
 
-  constructor(public name: string | null, public hostId: string ) {
+  constructor(public name: string | null, public hostId: string, public image: string | null ) {
   }
 }
 
 export class InitializePlayer {
   static readonly type = '[Player] InitializePlayer';
 
-  constructor(public name: string | null, public hostId: string ) {
+  constructor(public name: string | null, public hostId: string, public image: string | null ) {
   }
 }
 
