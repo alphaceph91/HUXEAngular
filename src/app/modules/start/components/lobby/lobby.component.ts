@@ -21,6 +21,7 @@ export class LobbyComponent implements OnInit {
   @Select(GameState.players) players$: Observable<any>;
 
   isHost: boolean;
+  difficultySelection = 0;
 
   playerNumber = ['4', '6', '8', '10'];
   num = 4;
@@ -37,29 +38,44 @@ export class LobbyComponent implements OnInit {
     }
   }
 
-  flip(): void {
+  flip(selection: number): void {
     this.flipval = !this.flipval;
     this.flipval2 = false;
     this.flipval3 = false;
+    this.setDifficultySelection(selection);
   }
 
-  flip2(): void {
+  flip2(selection: number): void {
     this.flipval2 = !this.flipval2;
     this.flipval3 = false;
     this.flipval = false;
+    this.setDifficultySelection(selection);
   }
 
-  flip3(): void {
+  flip3(selection: number): void {
     this.flipval3 = !this.flipval3;
     this.flipval2 = false;
     this.flipval = false;
+    this.setDifficultySelection(selection);
+  }
+
+  setDifficultySelection(selection: number) {
+    this.difficultySelection = selection;
   }
 
   constructor(private router: Router, private actions$: Actions, private store: Store, private firestore: AngularFirestore) {
   }
 
   next() {
-    this.store.dispatch(new ChangeGameState('start'));
+    this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection('difficulty')
+      .doc('difficultyDoc')
+      .set({
+        difficulty: this.difficultySelection
+      }).then(() => {
+      this.store.dispatch(new ChangeGameState('start'));
+    });
   }
 
   back() {
@@ -67,24 +83,27 @@ export class LobbyComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.firestore.collection('game')
-      .doc(this.store.selectSnapshot(HostState.hostId))
-      .collection<any>('gamestate')
-      .doc('state').valueChanges(value => {
-    }).subscribe((stateInFirestore) => {
-      if (stateInFirestore.state === 'start') {
-        this.router.navigate(['/start']);
+    if (!this.store.selectSnapshot(HostState.hostId)) {
+      this.router.navigate(['']);
+    } else {
+      this.firestore.collection('game')
+        .doc(this.store.selectSnapshot(HostState.hostId))
+        .collection<any>('gamestate')
+        .doc('state').valueChanges(value => {
+      }).subscribe((stateInFirestore) => {
+        if (stateInFirestore.state === 'start') {
+          this.router.navigate(['/start']);
+        } else if (stateInFirestore.state === 'drawing') {
+          this.router.navigate(['/drawing']);
+        }
+      });
+      this.store.dispatch(new ListenToPlayersList());
+      // this.store.dispatch(new ListenToGameState());
+      const hostId = this.store.selectSnapshot(HostState.hostId);
+      const userId = this.store.selectSnapshot(AuthState.userId);
+      if (hostId !== null) {
+        this.isHost = hostId === userId;
       }
-    });
-    this.store.dispatch(new ListenToPlayersList());
-    // this.store.dispatch(new ListenToGameState());
-    if (this.isHost) {
-      this.store.dispatch(new ChangeGameState('lobby'));
-    }
-    const hostId = this.store.selectSnapshot(HostState.hostId);
-    const userId = this.store.selectSnapshot(AuthState.userId);
-    if (hostId !== null) {
-      this.isHost = hostId === userId;
     }
   }
 }

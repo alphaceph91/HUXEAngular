@@ -184,51 +184,93 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
   }
 
   ngOnInit(): void {
-    this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
+    if (!this.store.selectSnapshot(HostState.hostId)) {
+      this.router.navigate(['']);
+    } else {
+      this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
 
-    // Subscribe to changes in shuffled text
-    this.firestore.collection('game')
-      .doc(this.store.selectSnapshot(HostState.hostId))
-      .collection<any>('shuffledStories')
-      .valueChanges()
-      .subscribe((values) => {
-        const resultingElement = values.find(element => {
-          return element.id === this.store.selectSnapshot(AuthState.userId);
-        });
-        this.shuffledText = resultingElement.story;
-      });
-
-    // Send shuffled text to there
-    if (this.isHost) {
-      console.log('initialStories1');
+      // Subscribe to changes in shuffled text
       this.firestore.collection('game')
         .doc(this.store.selectSnapshot(HostState.hostId))
-        .collection<any>('initialStories')
-        .get()
-        .subscribe(stories => {
-          // Get strings and ids as arrays
-          // Shuffle them
-          // Create a new firebase collection shuffledStories and push the shuffled ones there.
-          // Then subscribe to the changes in that storage and create a state for the user's shown text
-          // Then subscribe to the state and get the text to draw.
-          const storyArray = [];
-          const userIdArray = [];
-          stories.docs.forEach(doc => {
-            console.log(doc);
-            console.log(doc.data());
-            console.log(doc.data().story);
-            storyArray.push(doc.data().story);
-            userIdArray.push(doc.data().id);
+        .collection<any>('shuffledStories')
+        .valueChanges()
+        .subscribe((values) => {
+          const resultingElement = values.find(element => {
+            return element.id === this.store.selectSnapshot(AuthState.userId);
           });
-          this.shuffleArray(storyArray);
-          userIdArray.forEach((element, index) => {
-            this.firestore.collection('game')
-              .doc(this.store.selectSnapshot(HostState.hostId))
-              .collection<any>('shuffledStories')
-              .doc(element)
-              .set({story: storyArray[index], id: element});
-          });
+          this.shuffledText = resultingElement.story;
         });
+
+      if (this.isHost) {
+        console.log('initialStories1');
+        this.firestore.collection('game')
+          .doc(this.store.selectSnapshot(HostState.hostId))
+          .collection<any>('initialStories')
+          .get()
+          .subscribe(stories => {
+            const storyArray = [];
+            const userIdArray = [];
+            stories.docs.forEach(doc => {
+              console.log(doc);
+              console.log(doc.data());
+              console.log(doc.data().story);
+              storyArray.push(doc.data().story);
+              userIdArray.push(doc.data().id);
+            });
+            this.shuffleArray(storyArray);
+            userIdArray.forEach((element, index) => {
+              this.firestore.collection('game')
+                .doc(this.store.selectSnapshot(HostState.hostId))
+                .collection<any>('shuffledStories')
+                .doc(element)
+                .set({story: storyArray[index], id: element});
+            });
+          });
+      }
     }
   }
 }
+
+// Get strings and ids as arrays
+// Shuffle them
+// Create a new firebase collection shuffledStories and push the shuffled ones there.
+// Then subscribe to the changes in that storage and create a state for the user's shown text
+// Then subscribe to the state and get the text to draw.
+
+// The things that needed now.
+/*
+Lets say we are okay with not having hostId out of state
+Then, we will need to skip name selection after entering the game.
+The only way is to check if image and name is selected. Then, we do not need to
+get there again if the information is already stored.
+
+Other one is getting the game state on lobby. We should fetch the state and act regarding to that.
+
+I think it is okay to store hostId and userId in state.
+Also the players can stay in state.
+The others can stay outside
+
+I think we should give error on all pages if there is no HostID defined.
+
+- Check Lobby state management. Do it just like it is in text draw
+
+- On very enter, check user state if exists in firestore
+- If not, set user with ID and send to HomeScreen
+- If yes bit no name || no iamge, send to HomeScreen
+- If yes and everything is fine, get the state and send to related page
+
+- If hostId is lost, show an error and send to restart screen for entering hostId
+
+- Then send drawings to firebase with shuffling and id the way you did with first stories
+
+- Then show drawings to get descriptions
+
+- Then show everything at once one by one
+
+- Project finished
+
+-Then, if there is time, check errors. Limit entering after 4 people joins and stuff.
+
+ */
+
+// Send shuffled text to there

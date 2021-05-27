@@ -53,34 +53,38 @@ export class GameStartComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
-    this.firestore.collection('game')
-      .doc(this.store.selectSnapshot(HostState.hostId))
-      .collection<any>('gamestate')
-      .doc('state')
-      .valueChanges()
-      .subscribe(newState => {
-        if (newState.state === 'drawing') {
-          this.router.navigate(['/drawing']);
-        }
-      });
-
-    if (this.isHost) {
+    if (!this.store.selectSnapshot(HostState.hostId)) {
+      this.router.navigate(['']);
+    } else {
+      this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
       this.firestore.collection('game')
         .doc(this.store.selectSnapshot(HostState.hostId))
-        .collection<any>('initialStories')
+        .collection<any>('gamestate')
+        .doc('state')
         .valueChanges()
-        .subscribe(allStories => {
-          if (allStories.length === 2) {
-            this.firestore.collection('game')
-              .doc(this.store.selectSnapshot(HostState.hostId))
-              .collection<any>('gamestate')
-              .doc('state')
-              .set({
-                state: 'drawing',
-              });
+        .subscribe(newState => {
+          if (newState.state === 'drawing') {
+            this.router.navigate(['/drawing']);
           }
         });
+
+      if (this.isHost) {
+        this.firestore.collection('game')
+          .doc(this.store.selectSnapshot(HostState.hostId))
+          .collection<any>('initialStories')
+          .valueChanges()
+          .subscribe(allStories => {
+            if (allStories.length === 2) {
+              this.firestore.collection('game')
+                .doc(this.store.selectSnapshot(HostState.hostId))
+                .collection<any>('gamestate')
+                .doc('state')
+                .set({
+                  state: 'drawing',
+                });
+            }
+          });
+      }
     }
 
   }

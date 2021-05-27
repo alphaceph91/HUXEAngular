@@ -36,7 +36,7 @@
 <div class=" settings">
   <div class="row">
 
-    <div class="col-6" (click)="flip()" [ngClass]="flipval ? 'card flipped' : 'card'">
+    <div class="col-6" (click)="flip(0)" [ngClass]="flipval ? 'card flipped' : 'card'">
       <div class="card-front">
         <div class="card-body text-center">
           <p><img src="./assets/Pokemons/charmander.png" alt="card image" class="pokemons"></p>
@@ -51,7 +51,7 @@
       </div>
     </div>
 
-    <div class="card col-6" (click)="flip2()" [ngClass]="flipval2 ? 'card flipped' : 'card'">
+    <div class="card col-6" (click)="flip2(1)" [ngClass]="flipval2 ? 'card flipped' : 'card'">
       <div class="card-front">
         <div class="card-body text-center">
           <p><img src="./assets/Pokemons/charmeleon.png" alt="card image" class="pokemons"></p>
@@ -66,7 +66,7 @@
       </div>
     </div>
 
-    <div class="card col-12" (click)="flip3()" [ngClass]="flipval3 ? 'card flipped' : 'card'">
+    <div class="card col-12" (click)="flip3(2)" [ngClass]="flipval3 ? 'card flipped' : 'card'">
       <div class="card-front">
         <div class="card-body text-center">
           <p><img src="./assets/Pokemons/charizard.png" alt="card image" class="pokemons"></p>
