@@ -1,38 +1,64 @@
 <head>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <div class="backbutton">
-<button  class="back" (click)="back()"> BACK</button>
+  <button class="back" (click)="back()"> BACK</button>
 </div>
-  <div class="players">
-    <h2>PLAYERS </h2>
-      <div>
-          <div class='playerslist'>
-            <p class="playerlistitem hostlistitem ">
-              <img src="./assets/Profiles/Animal_Faces/1.svg" alt="player" class="playerimg">
-            CoolName42069 <img src="./assets/star.png" alt="host" class="hostimg">
+<div class="players">
+  <h2>PLAYERS </h2>
+  <div>
+    <div class='playerslist'>
+      <p class="playerlistitem hostlistitem ">
+        <img src="./assets/Profiles/Animal_Faces/1.svg" alt="player" class="playerimg">
+        CoolName42069 <img src="./assets/star.png" alt="host" class="hostimg">
+      </p>
+      <div *ngIf="players.length > 0">
+        <div class="playerdiv" *ngFor="let player of players; index as i">
+          <p class="playerlistitem ">
+            <img [src]="player.image" alt="player" class="playerimg">
+            {{player.name}}
           </p>
-            <div class="playerdiv" *ngFor="let i of [].constructor(num)">
-                <p class="playerlistitem ">
-                    <img src="./assets/Profiles/Animal_Faces/1.svg" alt="player" class="playerimg">
-                  CoolName42069
-                </p>
-            </div>
-          </div>
+        </div>
       </div>
+    </div>
   </div>
+</div>
 
 
 <div class="settings">
   <h2> COOLNAME42069 ALBUM </h2>
   <p class="playerindialog">
     <img src="./assets/Profiles/Animal_Faces/1.svg" alt="player" class="playerimg">
-  CoolName42069
-</p>
+    CoolName42069
+  </p>
   <p class="descriptionoutput"> Aliens abducted the cow </p>
   <div class="imgoutput"></div>
-  <div class="endtext"><hr class="left">End of COOLNAME42069's album<hr class="right"></div>
+  <div class="endtext">
+    <hr class="left">
+    End of COOLNAME42069's album
+    <hr class="right">
+  </div>
 </div>
+
+
+
+<div *ngIf="true" class="settings">
+  <h2> {{currentPlayer.name}}'s ALBUM </h2>
+  <p class="playerindialog">
+    <img [src]="currentPlayer.image" alt="player" class="playerimg">
+    {{currentPlayer.name}}
+  </p>
+  <p class="descriptionoutput"> {{currentInitialStory}} </p>
+  <div class="imgoutput"><img [src]="currentDrawing"></div>
+  <p class="descriptionoutput"> {{currentDescription}} </p>
+  <div class="endtext">
+    <hr class="left">
+    End of {{currentPlayer.name}}'s album
+    <hr class="right">
+  </div>
+</div>
+
 
 
 
