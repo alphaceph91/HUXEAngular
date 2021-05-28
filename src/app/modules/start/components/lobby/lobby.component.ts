@@ -21,6 +21,7 @@ export class LobbyComponent implements OnInit {
   @Select(GameState.players) players$: Observable<any>;
 
   isHost: boolean;
+  hostId: string;
   difficultySelection = 0;
 
   playerNumber = ['4', '6', '8', '10'];
@@ -107,6 +108,7 @@ export class LobbyComponent implements OnInit {
       const userId = this.store.selectSnapshot(AuthState.userId);
       if (hostId !== null) {
         this.isHost = hostId === userId;
+        this.hostId = hostId;
       }
     }
   }
