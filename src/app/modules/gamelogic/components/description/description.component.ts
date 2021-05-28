@@ -4,6 +4,7 @@ import {HostState} from "../../../../store/host.state";
 import {AuthState} from "../../../../store/auth.state";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Store} from "@ngxs/store";
+import {GameState} from "../../../../store/game.state";
 
 @Component({
   selector: 'app-description',
@@ -60,7 +61,7 @@ export class DescriptionComponent implements OnInit {
         .collection<any>('descriptionTexts')
         .valueChanges()
         .subscribe((descriptionTexts) => {
-          if (descriptionTexts.length === 2) {
+          if (descriptionTexts.length === this.store.selectSnapshot(GameState.players).length) {
             this.firestore.collection('game')
               .doc(this.store.selectSnapshot(HostState.hostId))
               .collection<any>('gamestate')

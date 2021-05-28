@@ -15,6 +15,7 @@ import {Store} from "@ngxs/store";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {HostState} from "../../../../store/host.state";
 import {AuthState} from "../../../../store/auth.state";
+import {GameState} from "../../../../store/game.state";
 
 declare interface Position {
   offsetX: number;
@@ -254,7 +255,7 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
           .collection<any>('initialDrawings')
           .valueChanges()
           .subscribe(allDrawings => {
-            if (allDrawings.length === 2) {
+            if (allDrawings.length === this.store.selectSnapshot(GameState.players).length) {
               const storyArray = [];
               const userIdArray = [];
               allDrawings.forEach((doc) => {
@@ -284,7 +285,7 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
           .collection<any>('shuffledDrawings')
           .valueChanges()
           .subscribe((shuffledDrawings) => {
-            if (shuffledDrawings.length === 2) {
+            if (shuffledDrawings.length === this.store.selectSnapshot(GameState.players).length) {
               this.firestore.collection('game')
                 .doc(this.store.selectSnapshot(HostState.hostId))
                 .collection<any>('gamestate')

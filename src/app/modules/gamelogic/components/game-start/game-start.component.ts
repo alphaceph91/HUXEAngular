@@ -3,10 +3,13 @@ import {Router} from '@angular/router';
 
 import {AnimationItem} from 'lottie-web';
 import {AnimationOptions} from 'ngx-lottie';
-import {Store} from '@ngxs/store';
+import {Select, Store} from '@ngxs/store';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {HostState} from '../../../../store/host.state';
 import {AuthState} from '../../../../store/auth.state';
+import {GameState} from "../../../../store/game.state";
+import {Observable} from "rxjs";
+import {PlayerState} from "../../../../store/player.state";
 
 @Component({
   selector: 'app-game-start',
@@ -14,6 +17,7 @@ import {AuthState} from '../../../../store/auth.state';
   styleUrls: ['./game-start.component.scss'],
 })
 export class GameStartComponent implements OnInit {
+  @Select(GameState.players) players$: Observable<any>;
 
   story: string;
   isHost: boolean;
@@ -84,7 +88,7 @@ export class GameStartComponent implements OnInit {
           .collection<any>('initialStories')
           .valueChanges()
           .subscribe(allStories => {
-            if (allStories.length === 2) {
+            if (allStories.length === this.store.selectSnapshot(GameState.players).length) {
               const storyArray = [];
               const userIdArray = [];
               allStories.forEach((doc) => {
@@ -107,7 +111,7 @@ export class GameStartComponent implements OnInit {
           .doc(this.store.selectSnapshot(HostState.hostId))
           .collection('shuffledStories')
           .valueChanges().subscribe((shuffledStoryList) => {
-            if (shuffledStoryList.length === 2) {
+            if (shuffledStoryList.length === this.store.selectSnapshot(GameState.players).length) {
               this.firestore.collection('game')
                 .doc(this.store.selectSnapshot(HostState.hostId))
                 .collection<any>('gamestate')
