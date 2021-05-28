@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Host, Input, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
 import {HostState} from "../../../../store/host.state";
 import {AuthState} from "../../../../store/auth.state";
@@ -13,6 +13,7 @@ import {Store} from "@ngxs/store";
 export class DescriptionComponent implements OnInit {
 
   shuffledDrawing: string;
+  descriptionText: string;
 
   @Input() src: string;
 
@@ -20,13 +21,24 @@ export class DescriptionComponent implements OnInit {
   }
 
   next() {
-    this.router.navigate(['/results']);
+    this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection('descriptionTexts')
+      .doc(this.store.selectSnapshot(AuthState.userId))
+      .set(
+        {
+          description: this.descriptionText,
+          id: this.store.selectSnapshot(AuthState.userId)
+        }
+      );
   }
 
   ngOnInit(): void {
+    // Check if host defined
     if (!this.store.selectSnapshot(HostState.hostId)) {
       this.router.navigate(['']);
     } else {
+      // Get Shuffled Drawings to show
       this.firestore.collection('game')
         .doc(this.store.selectSnapshot(HostState.hostId))
         .collection<any>('shuffledDrawings')
@@ -40,6 +52,35 @@ export class DescriptionComponent implements OnInit {
           });
           this.shuffledDrawing = resultingElement.drawing;
           console.log(this.shuffledDrawing);
+        });
+
+      // Check descriptions and set game state.
+      this.firestore.collection('game')
+        .doc(this.store.selectSnapshot(HostState.hostId))
+        .collection<any>('descriptionTexts')
+        .valueChanges()
+        .subscribe((descriptionTexts) => {
+          if (descriptionTexts.length === 2) {
+            this.firestore.collection('game')
+              .doc(this.store.selectSnapshot(HostState.hostId))
+              .collection<any>('gamestate')
+              .doc('state')
+              .set({
+                state: 'results',
+              });
+          }
+        });
+
+      // Listen to game state changes in firestore
+      this.firestore.collection('game')
+        .doc(this.store.selectSnapshot(HostState.hostId))
+        .collection<any>('gamestate')
+        .doc('state')
+        .valueChanges()
+        .subscribe(newState => {
+          if (newState.state === 'results') {
+            this.router.navigate(['/results']);
+          }
         });
     }
   }

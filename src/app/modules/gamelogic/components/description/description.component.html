@@ -5,10 +5,10 @@
   <img [src]=shuffledDrawing alt="result"  />
 </div>
 <div class="descInput">
-  <form action="">
+  <form (ngSubmit)="next()">
     <label for="description"></label>
-    <input type="text" id="description" name="description" placeholder="Use commas, They save lives">
-    <button  class="done" (click)="next()"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
+    <input [(ngModel)]="descriptionText" type="text" id="description" name="description" placeholder="Use commas, They save lives">
+    <button  class="done" type="submit"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
   </form>
 </div>
 </div>
