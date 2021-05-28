@@ -31,6 +31,8 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
   isHost: boolean;
   shuffledText: string;
 
+  base64DrawingImage: any;
+
   @ViewChild('drawingCanvas')
   canvas: ElementRef<HTMLCanvasElement> | null = null;
   ctx: CanvasRenderingContext2D | null = null;
@@ -59,10 +61,6 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
   mouseUpSubscription: any;
 
   constructor(private router: Router, private store: Store, private firestore: AngularFirestore) {
-  }
-
-  next() {
-    this.router.navigate(['/describe']);
   }
 
   ngAfterViewInit(): void {
@@ -176,6 +174,28 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     this.mouseUpSubscription?.unsubscribe();
   }
 
+  next() {
+    console.log('SUBSCRIBE');
+    console.log(this.base64DrawingImage);
+    this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection('initialDrawings')
+      .doc(this.store.selectSnapshot(AuthState.userId))
+      .set({
+        drawing: this.base64DrawingImage,
+        id: this.store.selectSnapshot(AuthState.userId)
+      });
+    /*this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection('initialStories')
+      .doc(this.store.selectSnapshot(AuthState.userId))
+      .set({
+        story: this.story,
+        id: this.store.selectSnapshot(AuthState.userId)
+      });*/
+    // this.router.navigate(['/describe']);
+  }
+
   shuffleArray(array): void {
     for (let i = array.length - 1; i > 0; i--) {
       let j = Math.floor(Math.random() * (i + 1));
@@ -183,11 +203,30 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 
+  // base64DrawingImage
+
   ngOnInit(): void {
+    // Check Host State. It has to be defined.
     if (!this.store.selectSnapshot(HostState.hostId)) {
       this.router.navigate(['']);
     } else {
-      this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
+
+      // Route regarding to game state
+      this.firestore.collection('game')
+        .doc(this.store.selectSnapshot(HostState.hostId))
+        .collection<any>('gamestate')
+        .doc('state')
+        .valueChanges()
+        .subscribe(newState => {
+          if (newState.state === 'description') {
+            this.router.navigate(['/description']);
+          }
+        });
+
+      // Store drawing on drawing subscribe.
+      this.drawingChanged.subscribe((base64Image) => {
+        this.base64DrawingImage = base64Image.base64;
+      });
 
       // Subscribe to changes in shuffled text
       this.firestore.collection('game')
@@ -195,36 +234,35 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
         .collection<any>('shuffledStories')
         .valueChanges()
         .subscribe((values) => {
+          console.log('values');
+          console.log('values');
+          console.log(values);
           const resultingElement = values.find(element => {
             return element.id === this.store.selectSnapshot(AuthState.userId);
           });
           this.shuffledText = resultingElement.story;
         });
 
+      // Check if the user host.
+      this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
+
+      // Only host can set the state. If everyone finishes drawing, then ste to description.
       if (this.isHost) {
-        console.log('initialStories1');
+        // Set game state if everyone has finished drawing
         this.firestore.collection('game')
           .doc(this.store.selectSnapshot(HostState.hostId))
-          .collection<any>('initialStories')
-          .get()
-          .subscribe(stories => {
-            const storyArray = [];
-            const userIdArray = [];
-            stories.docs.forEach(doc => {
-              console.log(doc);
-              console.log(doc.data());
-              console.log(doc.data().story);
-              storyArray.push(doc.data().story);
-              userIdArray.push(doc.data().id);
-            });
-            this.shuffleArray(storyArray);
-            userIdArray.forEach((element, index) => {
+          .collection<any>('initialDrawings')
+          .valueChanges()
+          .subscribe(allDrawings => {
+            if (allDrawings.length === 2) {
               this.firestore.collection('game')
                 .doc(this.store.selectSnapshot(HostState.hostId))
-                .collection<any>('shuffledStories')
-                .doc(element)
-                .set({story: storyArray[index], id: element});
-            });
+                .collection<any>('gamestate')
+                .doc('state')
+                .set({
+                  state: 'description',
+                });
+            }
           });
       }
     }

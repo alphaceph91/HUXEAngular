@@ -52,6 +52,13 @@ export class GameStartComponent implements OnInit {
     console.log(animationItem);
   }
 
+  shuffleArray(array): void {
+    for (let i = array.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
+    }
+  }
+
   ngOnInit(): void {
     if (!this.store.selectSnapshot(HostState.hostId)) {
       this.router.navigate(['']);
@@ -69,12 +76,38 @@ export class GameStartComponent implements OnInit {
         });
 
       if (this.isHost) {
+        // Check initial stories
+        // Shuffle
+        // Change game state.
         this.firestore.collection('game')
           .doc(this.store.selectSnapshot(HostState.hostId))
           .collection<any>('initialStories')
           .valueChanges()
           .subscribe(allStories => {
             if (allStories.length === 2) {
+              const storyArray = [];
+              const userIdArray = [];
+              allStories.forEach((doc) => {
+                console.log(doc);
+                console.log(doc.story);
+                storyArray.push(doc.story);
+                userIdArray.push(doc.id);
+              });
+              this.shuffleArray(storyArray);
+              userIdArray.forEach((element, index) => {
+                this.firestore.collection('game')
+                  .doc(this.store.selectSnapshot(HostState.hostId))
+                  .collection<any>('shuffledStories')
+                  .doc(element)
+                  .set({story: storyArray[index], id: element});
+              });
+            }
+          });
+        this.firestore.collection('game')
+          .doc(this.store.selectSnapshot(HostState.hostId))
+          .collection('shuffledStories')
+          .valueChanges().subscribe((shuffledStoryList) => {
+            if (shuffledStoryList.length === 2) {
               this.firestore.collection('game')
                 .doc(this.store.selectSnapshot(HostState.hostId))
                 .collection<any>('gamestate')
@@ -83,7 +116,7 @@ export class GameStartComponent implements OnInit {
                   state: 'drawing',
                 });
             }
-          });
+        });
       }
     }
 

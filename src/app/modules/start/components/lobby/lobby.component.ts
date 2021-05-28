@@ -95,6 +95,8 @@ export class LobbyComponent implements OnInit {
           this.router.navigate(['/start']);
         } else if (stateInFirestore.state === 'drawing') {
           this.router.navigate(['/drawing']);
+        } else if (stateInFirestore.state === 'description') {
+          this.router.navigate(['/description']);
         }
       });
       this.store.dispatch(new ListenToPlayersList());
