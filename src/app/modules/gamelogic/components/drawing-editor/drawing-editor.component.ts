@@ -223,7 +223,7 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
           }
         });
 
-      // Store drawing on drawing subscribe.
+      // Store drawing locally on drawing event emitter subscribe.
       this.drawingChanged.subscribe((base64Image) => {
         this.base64DrawingImage = base64Image.base64;
       });
@@ -246,7 +246,7 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
       // Check if the user host.
       this.isHost = this.store.selectSnapshot(HostState.hostId) === this.store.selectSnapshot(AuthState.userId);
 
-      // Only host can set the state. If everyone finishes drawing, then ste to description.
+      // Only host can set the state. If everyone finishes drawing, then set to description.
       if (this.isHost) {
         // Set game state if everyone has finished drawing
         this.firestore.collection('game')
@@ -255,6 +255,36 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
           .valueChanges()
           .subscribe(allDrawings => {
             if (allDrawings.length === 2) {
+              const storyArray = [];
+              const userIdArray = [];
+              allDrawings.forEach((doc) => {
+                console.log(doc);
+                console.log(doc.drawing);
+                storyArray.push(doc.drawing);
+                userIdArray.push(doc.id);
+              });
+              this.shuffleArray(storyArray);
+              userIdArray.forEach((element, index) => {
+                this.firestore.collection('game')
+                  .doc(this.store.selectSnapshot(HostState.hostId))
+                  .collection<any>('shuffledDrawings')
+                  .doc(element)
+                  .set(
+                    {
+                      drawing: storyArray[index],
+                      id: element
+                    });
+              });
+            }
+          });
+
+        // Check shuffled drawings and set game state
+        this.firestore.collection('game')
+          .doc(this.store.selectSnapshot(HostState.hostId))
+          .collection<any>('shuffledDrawings')
+          .valueChanges()
+          .subscribe((shuffledDrawings) => {
+            if (shuffledDrawings.length === 2) {
               this.firestore.collection('game')
                 .doc(this.store.selectSnapshot(HostState.hostId))
                 .collection<any>('gamestate')
@@ -268,6 +298,17 @@ export class DrawingEditorComponent implements OnInit, AfterViewInit, OnDestroy 
     }
   }
 }
+
+/*
+set game state:
+this.firestore.collection('game')
+                .doc(this.store.selectSnapshot(HostState.hostId))
+                .collection<any>('gamestate')
+                .doc('state')
+                .set({
+                  state: 'description',
+                });
+ */
 
 // Get strings and ids as arrays
 // Shuffle them
