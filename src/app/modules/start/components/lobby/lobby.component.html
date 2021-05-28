@@ -7,14 +7,15 @@
 </div>
 <div class="players">
   <h2>PLAYERS 1/{{num}}</h2>
+
   <div>
     <select (change)="changeNumber($event)">
       <option *ngFor="let num of playerNumber">{{num}} <p>PLAYERS</p></option>
     </select>
     <div class='playerslist'>
       <div class="playerdiv" *ngFor="let player of players$ | async">
-        <p class="empty">
-          <img [src]="player.image" alt="img" class="noPlayer">
+        <p class="playerlistitem">
+          <img [src]="player.image" alt="img" class="playerimg">
           {{player.name}}</p>
       </div>
     </div>
@@ -72,9 +73,10 @@
   </div>
 </div>
 
+<div class="buttons">
 <button *ngIf="isHost" class="done" id="link"><img src="../assets/link.png" alt="done" id="linkImg"> Link</button>
 {{hostId}}
 <div *ngIf="players$ | async as players">
   <button *ngIf="isHost && players.length > 1" class="done" (click)="next()"><img src="../assets/play.png" alt="done" id="clearImg"> Start</button>
 </div>
-
+</div>

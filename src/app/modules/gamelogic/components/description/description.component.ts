@@ -1,10 +1,10 @@
-import {Component, Host, Input, OnInit} from '@angular/core';
-import {Router} from '@angular/router';
-import {HostState} from "../../../../store/host.state";
-import {AuthState} from "../../../../store/auth.state";
-import {AngularFirestore} from "@angular/fire/firestore";
-import {Store} from "@ngxs/store";
-import {GameState} from "../../../../store/game.state";
+import { Component, Host, Input, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HostState } from '../../../../store/host.state';
+import { AuthState } from '../../../../store/auth.state';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Store } from '@ngxs/store';
+import { GameState } from '../../../../store/game.state';
 
 @Component({
   selector: 'app-description',
@@ -12,26 +12,27 @@ import {GameState} from "../../../../store/game.state";
   styleUrls: ['./description.component.scss'],
 })
 export class DescriptionComponent implements OnInit {
-
   shuffledDrawing: string;
   descriptionText: string;
 
   @Input() src: string;
 
-  constructor(private router: Router, private firestore: AngularFirestore, private store: Store) {
-  }
+  constructor(
+    private router: Router,
+    private firestore: AngularFirestore,
+    private store: Store
+  ) {}
 
-  next() {
-    this.firestore.collection('game')
+  next(): void {
+    this.firestore
+      .collection('game')
       .doc(this.store.selectSnapshot(HostState.hostId))
       .collection('descriptionTexts')
       .doc(this.store.selectSnapshot(AuthState.userId))
-      .set(
-        {
-          description: this.descriptionText,
-          id: this.store.selectSnapshot(AuthState.userId)
-        }
-      );
+      .set({
+        description: this.descriptionText,
+        id: this.store.selectSnapshot(AuthState.userId),
+      });
   }
 
   ngOnInit(): void {
@@ -40,7 +41,8 @@ export class DescriptionComponent implements OnInit {
       this.router.navigate(['']);
     } else {
       // Get Shuffled Drawings to show
-      this.firestore.collection('game')
+      this.firestore
+        .collection('game')
         .doc(this.store.selectSnapshot(HostState.hostId))
         .collection<any>('shuffledDrawings')
         .valueChanges()
@@ -48,7 +50,7 @@ export class DescriptionComponent implements OnInit {
           console.log('values');
           console.log('values');
           console.log(values);
-          const resultingElement = values.find(element => {
+          const resultingElement = values.find((element) => {
             return element.id === this.store.selectSnapshot(AuthState.userId);
           });
           this.shuffledDrawing = resultingElement.drawing;
@@ -56,13 +58,18 @@ export class DescriptionComponent implements OnInit {
         });
 
       // Check descriptions and set game state.
-      this.firestore.collection('game')
+      this.firestore
+        .collection('game')
         .doc(this.store.selectSnapshot(HostState.hostId))
         .collection<any>('descriptionTexts')
         .valueChanges()
         .subscribe((descriptionTexts) => {
-          if (descriptionTexts.length === this.store.selectSnapshot(GameState.players).length) {
-            this.firestore.collection('game')
+          if (
+            descriptionTexts.length ===
+            this.store.selectSnapshot(GameState.players).length
+          ) {
+            this.firestore
+              .collection('game')
               .doc(this.store.selectSnapshot(HostState.hostId))
               .collection<any>('gamestate')
               .doc('state')
@@ -73,12 +80,13 @@ export class DescriptionComponent implements OnInit {
         });
 
       // Listen to game state changes in firestore
-      this.firestore.collection('game')
+      this.firestore
+        .collection('game')
         .doc(this.store.selectSnapshot(HostState.hostId))
         .collection<any>('gamestate')
         .doc('state')
         .valueChanges()
-        .subscribe(newState => {
+        .subscribe((newState) => {
           if (newState.state === 'results') {
             this.router.navigate(['/results']);
           }

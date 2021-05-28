@@ -1,0 +1,87 @@
+.container {
+  margin-top: 50px;
+  margin-left: 300px;
+  padding: 10px;
+  width: 1647px;
+  height: 850px;
+  background: transparent linear-gradient(130deg, #70707066 0%, #3838382e 100%)
+    0% 0% no-repeat padding-box;
+  box-shadow: 15px 15px 15px #00000029;
+  border: 2px solid #503d3d33;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+}
+
+.gamestart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.host {
+  width: 50%;
+  height: 200px;
+  float: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.player {
+  width: 50%;
+  height: 200px;
+  float: right;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.button {
+  width: 242px;
+  height: 72px;
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0px 10px 1px #707070;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  opacity: 1;
+  text-align: left;
+  font: normal normal normal 22px/37px Permanent Marker;
+  letter-spacing: 2.27px;
+  color: #000000;
+  opacity: 1;
+  text-align: center;
+}
+
+.input {
+  margin-bottom: 20px;
+  width: 450px;
+  height: 72px;
+  background: #707070 0% 0% no-repeat padding-box;
+  border: 1px solid #ffffff;
+  border-radius: 10px;
+  opacity: 1;
+  backdrop-filter: blur(50px);
+  -webkit-backdrop-filter: blur(50px);
+  font: normal normal 600 32px/39px Montserrat;
+  letter-spacing: 2.27px;
+  color: #fff;
+  text-align: left;
+}
+
+.input::placeholder {
+  font: normal normal 600 32px/39px Montserrat;
+  letter-spacing: 2.27px;
+  color: rgba($color: #fffefe, $alpha: 0.2);
+  text-align: left;
+  opacity: 0.75;
+}
+
+.buttonPlacement {
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

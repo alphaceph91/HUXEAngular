@@ -2,15 +2,19 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
 <div class="container">
-  <div>
-    <div class="avatar">
+  <ng-lottie width="500px" height="500px"  [options]="game" class="gamestart"></ng-lottie>
+    <div class="host">
       <form (ngSubmit)="onHost()">
-        <button type="submit" class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Host </button>
+        <button type="submit" class="button"> <img src="../assets/play.png" alt="done" class="clearImg"> Host </button>
       </form>
+      </div>
+      <div class="player">
       <form (ngSubmit)="onPlay()">
-        <input [(ngModel)]="hostId" type="text" id="hostId" name="hostId" placeholder="Host ID">
-        <button type="submit" class="done"> <img src="../assets/play.png" alt="done" class="clearImg"> Play </button>
+        <input class="input" [(ngModel)]="hostId" type="text" id="hostId" name="hostId" placeholder="Host ID"><br>
+        <div class="buttonPlacement">
+        <button type="submit" class="button"> <img src="../assets/play.png" alt="done" class="clearImg"> Play </button>
+      </div>
       </form>
     </div>
   </div>
-</div>
+

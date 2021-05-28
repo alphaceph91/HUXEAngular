@@ -6,7 +6,6 @@ $clearImgSize: 30px;
 
 .done {
   margin-top: 30px;
-  margin-left: 210px;
   width: 272px;
   height: 92px;
   background: #ffffff 0% 0% no-repeat padding-box;
@@ -94,16 +93,8 @@ h2 {
 }
 
 .playerdiv {
-  margin-top: 22px;
-  margin-left: 50px;
   width: 441px;
   height: 76px;
-  background: #70707066 0% 0% no-repeat padding-box;
-  border: 1px solid #ffffff;
-  border-radius: 35px 10px 10px 35px;
-  opacity: 1;
-  backdrop-filter: blur(50px);
-  -webkit-backdrop-filter: blur(50px);
 }
 
 select {
@@ -210,14 +201,6 @@ option {
   transform: rotateY(180deg);
 }
 
-.noPlayer {
-  width: 61px;
-  height: 61px;
-  opacity: 0.75;
-  margin-left: 7px;
-  margin-top: 3px;
-}
-
 .empty {
   text-align: left;
   font: normal normal 600 22px/27px Montserrat;
@@ -284,4 +267,8 @@ option {
 
 #carouselExampleIndicators {
   margin: 2px;
+}
+
+.buttons {
+  display: inline;
 }
