@@ -132,6 +132,7 @@ export class GameState implements NgxsOnInit {
               .pipe(
                 tap(state => {
                   console.log('LISTENTOGAMESTATE2');
+                  console.log(state);
                   context.dispatch(new SetGameState(state.state));
                 })
               );

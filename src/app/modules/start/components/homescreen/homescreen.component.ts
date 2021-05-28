@@ -15,8 +15,9 @@ import { Router } from '@angular/router';
 import { AnimationItem } from 'lottie-web';
 import { AnimationOptions } from 'ngx-lottie';
 import { Players } from '../../players';
-import {SetPlayers} from "../../../../store/game.actions";
-import {HostState} from "../../../../store/host.state";
+import {SetGameState, SetPlayers} from '../../../../store/game.actions';
+import {HostState} from '../../../../store/host.state';
+import {AngularFirestore} from "@angular/fire/firestore";
 
 @Component({
   selector: 'app-homescreen',
@@ -24,7 +25,7 @@ import {HostState} from "../../../../store/host.state";
   styleUrls: ['./homescreen.component.scss'],
 })
 export class HomescreenComponent implements OnInit {
-  constructor(private router: Router, private formBuilder: FormBuilder, private store: Store, private actions$: Actions) {}
+  constructor(private router: Router, private firestore: AngularFirestore, private formBuilder: FormBuilder, private store: Store, private actions$: Actions) {}
 
   get f(): { [key: string]: AbstractControl } {
     return this.form.controls;
@@ -102,13 +103,31 @@ export class HomescreenComponent implements OnInit {
     if (this.form.valid) {
       console.log('VALIDATIOOON!');
       console.log(this.store.selectSnapshot(HostState.hostId));
-      this.store.dispatch(new AddPlayer(this.playerName, this.store.selectSnapshot(HostState.hostId)))
+      this.store.dispatch(new InitializePlayer(this.playerName,
+        this.store.selectSnapshot(HostState.hostId),
+        './assets/Profiles/Animal_Faces/' + this.selectedAvatar.img + '.svg'))
         .subscribe(() => this.router.navigate(['/lobby']));
     }
   }
   ngOnInit(): void {
+    this.firestore.collection('game')
+      .doc(this.store.selectSnapshot(HostState.hostId))
+      .collection('players')
+      .doc(this.store.selectSnapshot(AuthState.userId))
+      .get()
+      .subscribe((doc) => {
+        console.log('SUBS!');
+        if (doc.exists) {
+          console.log('SUBS2!');
+          console.log(doc.data());
+          if (doc.data().name && doc.data().image) {
+            console.log('SUBS3!');
+            this.router.navigate(['/lobby']);
+          }
+        }
+      });
     // subscribe to game state change. To understand the change and route
-    this.actions$.pipe(ofActionDispatched(ChangeGameState)).subscribe((payload) =>
+    this.actions$.pipe(ofActionDispatched(SetGameState)).subscribe((payload) =>
     {
       console.log('payload.state');
       console.log(payload.state);

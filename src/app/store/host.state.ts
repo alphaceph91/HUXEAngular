@@ -96,8 +96,8 @@ export class HostState implements NgxsOnInit {
 
   @Action(InitializeHost)
   initializeHost(context: StateContext<HostStateModel>, action: InitializeHost): any {
-    context.dispatch(new AddHost(action.name)).subscribe(() => {
-      context.dispatch(new SetHostByHost(action.name));
+    context.dispatch(new SetHostByHost(action.name)).subscribe(() => {
+      context.dispatch(new AddHost(action.name));
     });
   }
 

@@ -4,9 +4,9 @@
   <div class="bottom">
     <h2> START A STORY </h2>
     <div class="descInput">
-      <form action="">
+      <form action="" (ngSubmit)="next()">
         <label for="description"></label>
-        <input type="text" id="description" name="description" placeholder="Use commas, They save lives">
+        <input [(ngModel)]="story" type="text" id="description" name="description" placeholder="Use commas, They save lives">
         <button  class="done" (click)="next()"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
       </form>
     </div>

@@ -1,14 +1,14 @@
 <div class="container">
 <p class="rounds"> 1/5</p>
 <h2> NOW IT'S YOUR TURN TO DESCRIBE THE SCENE </h2>
-<div *ngIf="src" id='result'>
-  <img [src]=src alt="result"  />
+<div *ngIf="shuffledDrawing" id='result'>
+  <img [src]=shuffledDrawing alt="result"  />
 </div>
 <div class="descInput">
-  <form action="">
+  <form (ngSubmit)="next()">
     <label for="description"></label>
-    <input type="text" id="description" name="description" placeholder="Use commas, They save lives">
-    <button  class="done" (click)="next()"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
+    <input [(ngModel)]="descriptionText" type="text" id="description" name="description" placeholder="Use commas, They save lives">
+    <button  class="done" type="submit"> <img src="../assets/play.png" alt="done" class="clearImg"> Done </button>
   </form>
 </div>
 </div>
