@@ -2,11 +2,6 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 </head>
-<div *ngIf="players$ | async as players">
-  <div *ngFor="let player of players">
-    {{ player.id }}
-  </div>
-</div>
 <div class="backbutton">
   <button class="back" (click)="back()"> BACK</button>
 </div>
@@ -84,6 +79,7 @@
 </div>
 
 <button *ngIf="isHost" class="done" id="link"><img src="../assets/link.png" alt="done" id="linkImg"> Link</button>
+{{hostId}}
 <div *ngIf="players$ | async as players">
   <button *ngIf="isHost && players.length > 1" class="done" (click)="next()"><img src="../assets/play.png" alt="done" id="clearImg"> Start</button>
 </div>
